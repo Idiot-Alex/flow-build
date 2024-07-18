@@ -3,7 +3,6 @@ import { Position, VueFlow } from '@vue-flow/core'
 import { Background } from '@vue-flow/background'
 import { MiniMap } from '@vue-flow/minimap'
 import { Controls } from '@vue-flow/controls'
-import { NodeToolbar } from '@vue-flow/node-toolbar'
 import ColorSelect from '@/components/nodes/ColorSelect.vue'
 import Output from '@/components/nodes/Output.vue'
 
@@ -47,11 +46,6 @@ const edges = ref([
 <template>
   <div class="about">
     <h1>This is an about page</h1>
-    <NodeToolbar>
-      <button>delete</button>
-      <button>copy</button>
-      <button>expand</button>
-    </NodeToolbar>
 
     <VueFlow
       :nodes="nodes"
