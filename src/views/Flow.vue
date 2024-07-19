@@ -8,11 +8,11 @@ import { Controls } from '@vue-flow/controls'
 
 <template>
   <main data-theme="dark" class="theme-dark bg-line" w-100vw h-100vh>
-    <div class="drawer">
+    <div class="drawer" z-1>
       <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
       <div class="drawer-content flex flex-col items-center justify-center">
         <!-- Page content here -->
-        <label for="my-drawer-2" pos-absolute top-10px z-1 class="btn btn-primary drawer-button">
+        <label for="my-drawer-2" pos-absolute top-10px class="btn btn-primary drawer-button">
           Open drawer
         </label>
       </div>
@@ -20,7 +20,7 @@ import { Controls } from '@vue-flow/controls'
         <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
         <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
           <!-- Sidebar content here -->
-          <li><a>Sidebar Item 1</a></li>
+          <li :draggable="true"><a>Sidebar Item 1</a></li>
           <li><a>Sidebar Item 2</a></li>
         </ul>
       </div>
