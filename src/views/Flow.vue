@@ -3,12 +3,15 @@ import { Position, VueFlow } from '@vue-flow/core'
 import { Background } from '@vue-flow/background'
 import { MiniMap } from '@vue-flow/minimap'
 import { Controls } from '@vue-flow/controls'
+import { useDragAndDropStore } from '@/stores/dnd'
+
+const { onDragOver, onDrop, onDragLeave, onDragStart, isDragOver } = useDragAndDropStore()
 
 </script>
 
 <template>
-  <main data-theme="dark" class="theme-dark bg-line" w-100vw h-100vh>
-    <div class="drawer" z-1>
+  <main data-theme="dark" class="theme-dark bg-line" z-1 flex w-100vw h-100vh @drop="onDrop">
+    <div w-300px>
       <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
       <div class="drawer-content flex flex-col items-center justify-center">
         <!-- Page content here -->
@@ -20,12 +23,12 @@ import { Controls } from '@vue-flow/controls'
         <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
         <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
           <!-- Sidebar content here -->
-          <li :draggable="true"><a>Sidebar Item 1</a></li>
+          <li :draggable="true"><div class="vue-flow__node-input" @dragstart="onDragStart($event, 'input')">Input Node</div></li>
           <li><a>Sidebar Item 2</a></li>
         </ul>
       </div>
     </div>
-    <VueFlow>
+    <VueFlow flex-1 @dragover="onDragOver" @dragleave="onDragLeave">
       <Background />
       <MiniMap />
       <Controls />
