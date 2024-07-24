@@ -18,7 +18,7 @@ const nodes = ref([
   },
   {
     id: '2',
-    type: 'color-selector',
+    type: 'color-select',
     data: { color: '#1C1C1C' },
     position: { x: 0, y: 50 },
   },
@@ -44,7 +44,7 @@ const edges = ref([
 </script>
 
 <template>
-  <div class="about">
+  <div class="about" w-100vw h-100vh>
     <h1>This is an about page</h1>
 
     <VueFlow
@@ -55,7 +55,7 @@ const edges = ref([
       <Background />
       <MiniMap />
       <Controls />
-      <template #node-color-selector="props">
+      <template #node-color-select="props">
         <ColorSelect :id="props.id" :data="props.data" />
       </template>
 

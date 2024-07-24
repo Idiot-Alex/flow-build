@@ -1,12 +1,23 @@
 <script lang="ts" setup>
-import { Position, VueFlow } from '@vue-flow/core'
+import { Position, VueFlow, type Node, useVueFlow } from '@vue-flow/core'
 import { Background } from '@vue-flow/background'
 import { MiniMap } from '@vue-flow/minimap'
 import { Controls } from '@vue-flow/controls'
 import { useDragAndDropStore } from '@/stores/dnd'
+import ColorSelect from '@/components/nodes/ColorSelect.vue'
 
 const { onDragOver, onDrop, onDragLeave, onDragStart, isDragOver } = useDragAndDropStore()
+const { addNodes } = useVueFlow()
 
+const addNode = (config: object) => {
+  const node: Node = {
+    ...config,
+    id: 'add-1',
+    position: { x: 0, y: 50 }
+  }
+  console.log(node)
+  addNodes([node])
+}
 </script>
 
 <template>
@@ -23,8 +34,15 @@ const { onDragOver, onDrop, onDragLeave, onDragStart, isDragOver } = useDragAndD
         <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
         <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
           <!-- Sidebar content here -->
-          <li :draggable="true"><div class="vue-flow__node-input" @dragstart="onDragStart($event, 'input')">Input Node</div></li>
-          <li><a>Sidebar Item 2</a></li>
+          <li :draggable="true">
+            <div class="vue-flow__node-input" @dragstart="onDragStart($event, 'input')">Input Node</div>
+          </li>
+          <li :draggable="true">
+            <div class="vue-flow__node-default" @dragstart="onDragStart($event, 'default')">default Node</div>
+          </li>
+          <li>
+            <div class="btn" @click="addNode({type: 'color-select',data: { color: '#1C1C1C' }})">测试节点</div>
+          </li>
         </ul>
       </div>
     </div>
@@ -32,6 +50,9 @@ const { onDragOver, onDrop, onDragLeave, onDragStart, isDragOver } = useDragAndD
       <Background />
       <MiniMap />
       <Controls />
+      <template #node-color-select="props">
+        <ColorSelect :id="props.id" :data="props.data" />
+      </template>
     </VueFlow>
   </main>
 </template>

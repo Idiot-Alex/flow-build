@@ -69,7 +69,7 @@ function onGradient() {
     <button class="btn">copy</button>
     <button class="btn">expand</button>
   </NodeToolbar>
-  <div class="color-selector nodrag nopan">
+  <div class="color-select nodrag nopan">
     <button
       v-for="{ name: colorName, value: color } of colors"
       :key="colorName"
@@ -87,7 +87,7 @@ function onGradient() {
 </template>
 
 <style lang="css">
-.vue-flow__node-color-selector {
+.vue-flow__node-color-select {
   border:1px solid #777;
   padding:10px;
   border-radius:10px;
@@ -100,7 +100,7 @@ function onGradient() {
   max-width:250px
 }
 
-.vue-flow__node-color-selector .color-selector {
+.vue-flow__node-color-select .color-select {
   display:flex;
   flex-direction:row;
   flex-wrap:wrap;
@@ -110,7 +110,7 @@ function onGradient() {
   gap:4px
 }
 
-.vue-flow__node-color-selector .color-selector button {
+.vue-flow__node-color-select .color-select button {
   border:none;
   cursor:pointer;
   padding:5px;
@@ -120,16 +120,16 @@ function onGradient() {
   box-shadow:0 0 10px #0000004d
 }
 
-.vue-flow__node-color-selector .color-selector button:hover {
+.vue-flow__node-color-select .color-select button:hover {
   box-shadow:0 0 0 2px #2563eb;
   transition:box-shadow .2s
 }
 
-.vue-flow__node-color-selector .color-selector button.selected {
+.vue-flow__node-color-select .color-select button.selected {
   box-shadow:0 0 0 2px #2563eb
 }
 
-.vue-flow__node-color-selector .vue-flow__handle {
+.vue-flow__node-color-select .vue-flow__handle {
     background-color:#ec4899;
   height:24px;
   width:8px;
