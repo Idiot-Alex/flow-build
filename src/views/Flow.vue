@@ -5,14 +5,17 @@ import { MiniMap } from '@vue-flow/minimap'
 import { Controls } from '@vue-flow/controls'
 import { useDragAndDropStore } from '@/stores/dnd'
 import ColorSelect from '@/components/nodes/ColorSelect.vue'
+import Output from '@/components/nodes/Output.vue'
 
 const { onDragOver, onDrop, onDragLeave, onDragStart, isDragOver } = useDragAndDropStore()
-const { addNodes } = useVueFlow()
+const { addNodes, onConnect, addEdges } = useVueFlow()
+
+onConnect(addEdges)
 
 const addNode = (config: object) => {
   const node: Node = {
     ...config,
-    id: 'add-1',
+    id: new Date().getTime().toString(),
     position: { x: 0, y: 50 }
   }
   console.log(node)
@@ -41,7 +44,10 @@ const addNode = (config: object) => {
             <div class="vue-flow__node-default" @dragstart="onDragStart($event, 'default')">default Node</div>
           </li>
           <li>
-            <div class="btn" @click="addNode({type: 'color-select',data: { color: '#1C1C1C' }})">测试节点</div>
+            <div class="btn" @click="addNode({type: 'color-select'})">颜色选择</div>
+          </li>
+          <li>
+            <div class="btn" @click="addNode({type: 'output',data: { color: '#1C1C1C' }})">颜色输出</div>
           </li>
         </ul>
       </div>
@@ -52,6 +58,9 @@ const addNode = (config: object) => {
       <Controls />
       <template #node-color-select="props">
         <ColorSelect :id="props.id" :data="props.data" />
+      </template>
+      <template #node-output>
+        <Output />
       </template>
     </VueFlow>
   </main>

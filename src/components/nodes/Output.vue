@@ -13,9 +13,9 @@ const nodesData = useNodesData(() => connections.value[0]?.source)
   <Handle
     type="target"
     :position="Position.Left"
-    :style="{ height: '16px', width: '6px', backgroundColor: nodesData.data?.color, filter: 'invert(100%)' }"
+    :style="{ height: '16px', width: '6px', backgroundColor: nodesData?.data?.color, filter: 'invert(100%)' }"
   />
-  {{ nodesData.data?.isGradient ? 'GRADIENT' : nodesData.data?.color }}
+  {{ nodesData?.data?.isGradient ? 'GRADIENT' : nodesData?.data?.color }}
 </template>
 
 <style>
