@@ -15,24 +15,45 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="maven w-350px">
+  <div class="maven w-360px">
     <details class="collapse collapse-arrow border-base-300 bg-base-200 border">
       <summary class="collapse-title text-xl font-medium">Maven</summary>
       <div class="collapse-content">
-        <p>请在下面文本域中输入需要执行的 maven 命令</p>
+        <p>1. 请在下方定义输入的参数信息</p>
+        <p>2. 请在下面文本域中输入需要执行的 maven 命令</p>
+        <p>3. 执行完成之后会显示输出参数信息</p>
       </div>
     </details>
     <div class="form-control">
       <div class="label">
-        <span class="label-text">请输入 maven 命令</span>
+        <span class="label-text">输入参数信息</span>
+      </div>
+      <div class="join">
+        <div>
+          <div>
+            <input class="input input-bordered join-item" placeholder="Search" />
+          </div>
+        </div>
+        <input class="input input-bordered join-item" placeholder="Search" />
+        <div class="indicator">
+          <button class="btn join-item">Search</button>
+        </div>
       </div>
     </div>
     <div class="form-control">
+      <div class="label">
+        <span class="label-text">请输入 maven 命令</span>
+      </div>
       <textarea class="textarea textarea-primary w-full" placeholder="such as: clean package"></textarea>
     </div>
     <div mt-2 flex>
       <button class="btn btn-outline btn-primary mr-2">测试</button>
       <button class="btn btn-outline btn-accent mr-2">执行</button>
+    </div>
+    <div class="form-control">
+      <div class="label">
+        <span class="label-text">输出参数信息</span>
+      </div>
     </div>
     <NodeToolbar is-visible="true">
       <button class="btn">delete</button>
