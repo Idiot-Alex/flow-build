@@ -130,7 +130,7 @@ function onGradient() {
 }
 
 .vue-flow__node-color-select .vue-flow__handle {
-    background-color:#ec4899;
+  background-color:#ec4899;
   height:24px;
   width:8px;
   border-radius:4px

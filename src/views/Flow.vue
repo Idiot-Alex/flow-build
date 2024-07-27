@@ -6,6 +6,7 @@ import { Controls } from '@vue-flow/controls'
 import { useDragAndDropStore } from '@/stores/dnd'
 import ColorSelect from '@/components/nodes/ColorSelect.vue'
 import Output from '@/components/nodes/Output.vue'
+import Maven from '@/components/nodes/Maven.vue'
 
 const { onDragOver, onDrop, onDragLeave, onDragStart, isDragOver } = useDragAndDropStore()
 const { addNodes, onConnect, addEdges } = useVueFlow()
@@ -37,17 +38,14 @@ const addNode = (config: object) => {
         <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
         <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
           <!-- Sidebar content here -->
-          <li :draggable="true">
-            <div class="vue-flow__node-input" @dragstart="onDragStart($event, 'input')">Input Node</div>
-          </li>
-          <li :draggable="true">
-            <div class="vue-flow__node-default" @dragstart="onDragStart($event, 'default')">default Node</div>
-          </li>
           <li>
             <div class="btn" @click="addNode({type: 'color-select'})">颜色选择</div>
           </li>
           <li>
             <div class="btn" @click="addNode({type: 'output',data: { color: '#1C1C1C' }})">颜色输出</div>
+          </li>
+          <li>
+            <div class="btn" @click="addNode({type: 'maven',data: { color: '#1C1C1C' }})">maven</div>
           </li>
         </ul>
       </div>
@@ -61,6 +59,9 @@ const addNode = (config: object) => {
       </template>
       <template #node-output>
         <Output />
+      </template>
+      <template #node-maven="props">
+        <Maven :id="props.id" :data="props.data"/>
       </template>
     </VueFlow>
   </main>

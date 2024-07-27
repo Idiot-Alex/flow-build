@@ -1,0 +1,67 @@
+<script setup>
+import { Handle, Position, useVueFlow } from '@vue-flow/core'
+import { NodeToolbar } from '@vue-flow/node-toolbar'
+
+const props = defineProps({
+  id: {
+    type: String,
+    required: true,
+  },
+  data: {
+    type: Object,
+    required: true,
+  },
+})
+</script>
+
+<template>
+  <div class="maven w-350px">
+    <details class="collapse collapse-arrow border-base-300 bg-base-200 border">
+      <summary class="collapse-title text-xl font-medium">Maven</summary>
+      <div class="collapse-content">
+        <p>请在下面文本域中输入需要执行的 maven 命令</p>
+      </div>
+    </details>
+    <div class="form-control">
+      <div class="label">
+        <span class="label-text">请输入 maven 命令</span>
+      </div>
+    </div>
+    <div class="form-control">
+      <textarea class="textarea textarea-primary w-full" placeholder="such as: clean package"></textarea>
+    </div>
+    <div mt-2 flex>
+      <button class="btn btn-outline btn-primary mr-2">测试</button>
+      <button class="btn btn-outline btn-accent mr-2">执行</button>
+    </div>
+    <NodeToolbar is-visible="true">
+      <button class="btn">delete</button>
+      <button class="btn">copy</button>
+      <button class="btn">expand</button>
+    </NodeToolbar>
+    <Handle id="input" type="source" class="handle-input" :position="Position.Left" />
+    <Handle id="output" type="source" class="handle-output" :position="Position.Right" />
+  </div>
+</template>
+
+<style lang="css">
+.vue-flow__node-maven {
+  border: 1px solid #777;
+  padding: 10px;
+  border-radius: 10px;
+  background: #f5f5f5;
+}
+.vue-flow__node-maven .vue-flow__handle {
+  height:24px;
+  width:8px;
+  border-radius:4px
+}
+.vue-flow__handle.handle-input {
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-p, oklch(var(--p) / var(--tw-bg-opacity)));
+}
+.vue-flow__handle.handle-output {
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-s, oklch(var(--s) / var(--tw-bg-opacity)));
+}
+</style>
