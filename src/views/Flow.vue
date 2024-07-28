@@ -7,6 +7,7 @@ import { useDragAndDropStore } from '@/stores/dnd'
 import ColorSelect from '@/components/nodes/ColorSelect.vue'
 import Output from '@/components/nodes/Output.vue'
 import Maven from '@/components/nodes/Maven.vue'
+import Param from '@/components/nodes/Param.vue'
 
 const { onDragOver, onDrop, onDragLeave, onDragStart, isDragOver } = useDragAndDropStore()
 const { addNodes, onConnect, addEdges } = useVueFlow()
@@ -47,6 +48,9 @@ const addNode = (config: object) => {
           <li>
             <div class="btn" @click="addNode({type: 'maven',data: { color: '#1C1C1C' }})">maven</div>
           </li>
+          <li>
+            <div class="btn" @click="addNode({type: 'param',data: { color: '#1C1C1C' }})">param</div>
+          </li>
         </ul>
       </div>
     </div>
@@ -62,6 +66,9 @@ const addNode = (config: object) => {
       </template>
       <template #node-maven="props">
         <Maven :id="props.id" :data="props.data"/>
+      </template>
+      <template #node-param="props">
+        <Param :id="props.id" :data="props.data"/>
       </template>
     </VueFlow>
   </main>

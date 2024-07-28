@@ -84,3 +84,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* vue-flow default css */
+.vue-flow__handle.handle-input {
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-p, oklch(var(--p) / var(--tw-bg-opacity)));
+}
+.vue-flow__handle.handle-output {
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-s, oklch(var(--s) / var(--tw-bg-opacity)));
+}

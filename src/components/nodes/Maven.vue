@@ -15,7 +15,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="maven w-360px">
+  <div class="maven w-90">
     <details class="collapse collapse-arrow border-base-300 bg-base-200 border">
       <summary class="collapse-title text-xl font-medium">Maven</summary>
       <div class="collapse-content">
@@ -24,22 +24,7 @@ const props = defineProps({
         <p>3. 执行完成之后会显示输出参数信息</p>
       </div>
     </details>
-    <div class="form-control">
-      <div class="label">
-        <span class="label-text">输入参数信息</span>
-      </div>
-      <div class="join">
-        <div>
-          <div>
-            <input class="input input-bordered join-item" placeholder="Search" />
-          </div>
-        </div>
-        <input class="input input-bordered join-item" placeholder="Search" />
-        <div class="indicator">
-          <button class="btn join-item">Search</button>
-        </div>
-      </div>
-    </div>
+    
     <div class="form-control">
       <div class="label">
         <span class="label-text">请输入 maven 命令</span>
@@ -77,12 +62,5 @@ const props = defineProps({
   width:8px;
   border-radius:4px
 }
-.vue-flow__handle.handle-input {
-  --tw-bg-opacity: 1;
-  background-color: var(--fallback-p, oklch(var(--p) / var(--tw-bg-opacity)));
-}
-.vue-flow__handle.handle-output {
-  --tw-bg-opacity: 1;
-  background-color: var(--fallback-s, oklch(var(--s) / var(--tw-bg-opacity)));
-}
+
 </style>
