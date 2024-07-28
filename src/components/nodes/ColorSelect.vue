@@ -83,7 +83,7 @@ function onGradient() {
     <button class="animated-bg-gradient" title="gradient" type="button" @click="onGradient" />
   </div>
 
-  <Handle id="a" type="source" :position="Position.Right" />
+  <Handle id="output" type="target" class="handle-output" :position="Position.Right" />
 </template>
 
 <style lang="css">
@@ -130,7 +130,6 @@ function onGradient() {
 }
 
 .vue-flow__node-color-select .vue-flow__handle {
-  background-color:#ec4899;
   height:24px;
   width:8px;
   border-radius:4px
