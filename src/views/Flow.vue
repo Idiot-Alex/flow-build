@@ -5,7 +5,7 @@ import { MiniMap } from '@vue-flow/minimap'
 import { Controls } from '@vue-flow/controls'
 import { useDragAndDropStore } from '@/stores/dnd'
 import ColorSelect from '@/components/nodes/ColorSelect.vue'
-import Output from '@/components/nodes/Output.vue'
+import Console from '@/components/nodes/Console.vue'
 import Maven from '@/components/nodes/Maven.vue'
 import Param from '@/components/nodes/Param.vue'
 
@@ -43,7 +43,7 @@ const addNode = (config: object) => {
             <div class="btn" @click="addNode({type: 'color-select'})">颜色选择</div>
           </li>
           <li>
-            <div class="btn" @click="addNode({type: 'output',data: { color: '#1C1C1C' }})">颜色输出</div>
+            <div class="btn" @click="addNode({type: 'console',data: { color: '#1C1C1C' }})">输出</div>
           </li>
           <li>
             <div class="btn" @click="addNode({type: 'maven',data: { color: '#1C1C1C' }})">maven</div>
@@ -61,8 +61,8 @@ const addNode = (config: object) => {
       <template #node-color-select="props">
         <ColorSelect :id="props.id" :data="props.data" />
       </template>
-      <template #node-output>
-        <Output />
+      <template #node-console>
+        <Console />
       </template>
       <template #node-maven="props">
         <Maven :id="props.id" :data="props.data"/>
