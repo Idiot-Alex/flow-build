@@ -45,8 +45,8 @@ const props = defineProps({
       <button class="btn">copy</button>
       <button class="btn">expand</button>
     </NodeToolbar>
-    <Handle id="input" type="source" class="handle-input" :position="Position.Left" />
-    <Handle id="output" type="target" class="handle-output" :position="Position.Right" />
+    <Handle id="input" type="target" class="handle-input" :position="Position.Left" />
+    <Handle id="output" type="source" class="handle-output" :position="Position.Right" />
   </div>
 </template>
 

@@ -83,7 +83,7 @@ function onGradient() {
     <button class="animated-bg-gradient" title="gradient" type="button" @click="onGradient" />
   </div>
 
-  <Handle id="output" type="target" class="handle-output" :position="Position.Right" />
+  <Handle id="output" type="source" class="handle-output" :position="Position.Right" />
 </template>
 
 <style lang="css">

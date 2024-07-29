@@ -49,8 +49,8 @@ const delParam = (key) => {
         <button class="btn btn-outline join-item" @click="delParam(key)">删除</button>
       </div>
     </div>
-    <Handle id="input" type="source" class="handle-input" :position="Position.Left" />
-    <Handle id="output" type="target" class="handle-output" :position="Position.Right" />
+    <Handle id="input" type="target" class="handle-input" :position="Position.Left" />
+    <Handle id="output" type="source" class="handle-output" :position="Position.Right" />
   </div>
 </template>
 
