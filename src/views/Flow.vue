@@ -49,7 +49,7 @@ const addNode = (config: object) => {
             <div class="btn" @click="addNode({type: 'maven',data: { color: '#1C1C1C' }})">maven</div>
           </li>
           <li>
-            <div class="btn" @click="addNode({type: 'param',data: { color: '#1C1C1C' }})">param</div>
+            <div class="btn" @click="addNode({type: 'param',data: [{ color: '#1C1C1C' }]})">param</div>
           </li>
         </ul>
       </div>

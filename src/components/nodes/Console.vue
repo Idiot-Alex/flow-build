@@ -2,25 +2,50 @@
 import { Handle, Position, useHandleConnections, useNodesData } from '@vue-flow/core'
 
 const connections = useHandleConnections({
-  // type: 'target',
+  type: 'target',
+  id: 'input',
 })
 
-const nodesData = useNodesData(() => {
-  console.log(connections.value)
-  connections.value[0]?.source
+const nodeData = useNodesData(() => {
+  return connections.value[0]?.source
+})
+
+const dataType = computed(() => {
+  const node = nodeData.value
+  if (node?.data === null) {
+    return 'null'
+  } else if (Array.isArray(node?.data)) {
+    return 'array'
+  } else {
+    return typeof node?.data
+  }
 })
 </script>
 
 <template>
-  <div class="console w-24">
-    {{ nodesData?.data?.isGradient ? 'GRADIENT' : nodesData?.data?.color }}
-
-    <!-- <Handle id="input" type="source" class="handle-input" :position="Position.Left" /> -->
-    <Handle
-      type="target"
-      :position="Position.Right"
-      :style="{ height: '16px', width: '6px', backgroundColor: nodesData?.data?.color, filter: 'invert(100%)' }"
-    />
+  <div class="console w-auto">
+    <div v-if="nodeData" v-for="nKey in Object.keys(nodeData)" :key="nKey">
+      <div v-if="nKey !== 'data'">
+        {{ nKey }}: {{ nodeData[nKey] }}
+      </div>
+      <div v-else>
+        <div>data: </div>
+        <div v-if="dataType === 'array'">
+          <div v-for="item in nodeData.data" :key="item">
+            {{ item }}
+          </div>
+        </div>
+        <div v-else-if="dataType === 'object'">
+          <div v-for="dKey in Object.keys(nodeData.data)" :key="dKey">
+          {{ dKey }}: {{ nodeData.data[dKey] }}
+          </div>
+        </div>
+        <div v-else>
+          {{ nodeData.data }}
+        </div>
+      </div>
+    </div>
+    <Handle id="input" type="target" class="handle-input" connectable="single" :position="Position.Left" />
   </div>
 </template>
 
