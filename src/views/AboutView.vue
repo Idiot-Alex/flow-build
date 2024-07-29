@@ -4,7 +4,7 @@ import { Background } from '@vue-flow/background'
 import { MiniMap } from '@vue-flow/minimap'
 import { Controls } from '@vue-flow/controls'
 import ColorSelect from '@/components/nodes/ColorSelect.vue'
-import Output from '@/components/nodes/Output.vue'
+import Output from '@/components/nodes/Console.vue'
 
 const nodes = ref([
   { 
