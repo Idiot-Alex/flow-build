@@ -1,7 +1,8 @@
-<script setup>
-import { Handle, Position, useVueFlow } from '@vue-flow/core'
+<script lang="ts" setup>
+import { Handle, Position, useVueFlow, type ElementData } from '@vue-flow/core'
 import { NodeToolbar } from '@vue-flow/node-toolbar'
 
+const { updateNode } = useVueFlow()
 const props = defineProps({
   id: {
     type: String,
@@ -13,9 +14,7 @@ const props = defineProps({
   },
 })
 
-const param = ref({
-  key1: 'value1',
-})
+const param = ref({})
 const addParam = () => {
   const count = Object.keys(param.value).length
   const key = `key${count + 1}`
@@ -27,6 +26,20 @@ const delParam = (key) => {
   delete param.value[key]
 }
 
+
+const updateParamNode = (data: ElementData) => {
+  console.log(data)
+  updateNode(props.id, data)
+}
+
+watch(param, (newVal) => {
+  console.log(newVal)
+  const data = {
+    ...props.data,
+    param: newVal,
+  }
+  updateParamNode({data})
+}, {deep: true})
 </script>
 
 <template>

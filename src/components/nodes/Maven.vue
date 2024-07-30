@@ -1,7 +1,8 @@
-<script setup>
-import { Handle, Position, useVueFlow } from '@vue-flow/core'
+<script lang="ts" setup>
+import { Handle, Position, useVueFlow, type ElementData } from '@vue-flow/core'
 import { NodeToolbar } from '@vue-flow/node-toolbar'
 
+const { updateNode } = useVueFlow()
 const props = defineProps({
   id: {
     type: String,
@@ -12,6 +13,21 @@ const props = defineProps({
     required: true,
   },
 })
+
+const cmd = ref('')
+
+const onCmdChange = () => {
+  const data = {
+    ...props.data,
+    cmd: cmd.value,
+  }
+  updateMavenNode({data})
+}
+
+const updateMavenNode = (data: ElementData) => {
+  console.log(data)
+  updateNode(props.id, data)
+}
 </script>
 
 <template>
@@ -24,12 +40,11 @@ const props = defineProps({
         <p>3. 执行完成之后会显示输出参数信息</p>
       </div>
     </details>
-    
     <div class="form-control">
       <div class="label">
         <span class="label-text">请输入 maven 命令</span>
       </div>
-      <textarea class="textarea textarea-primary w-full" placeholder="such as: clean package"></textarea>
+      <textarea v-model="cmd" class="textarea textarea-primary w-full" @change="onCmdChange" placeholder="such as: clean package"></textarea>
     </div>
     <div mt-2 flex>
       <button class="btn btn-outline btn-primary mr-2">测试</button>
@@ -62,5 +77,4 @@ const props = defineProps({
   width:8px;
   border-radius:4px
 }
-
 </style>

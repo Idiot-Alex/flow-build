@@ -1,26 +1,23 @@
 <script lang="ts" setup>
-import { Position, VueFlow, type Node, useVueFlow } from '@vue-flow/core'
+import { Position, VueFlow, type Node, type ElementData, useVueFlow } from '@vue-flow/core'
 import { Background } from '@vue-flow/background'
 import { MiniMap } from '@vue-flow/minimap'
 import { Controls } from '@vue-flow/controls'
-import { useDragAndDropStore } from '@/stores/dnd'
 import ColorSelect from '@/components/nodes/ColorSelect.vue'
 import Console from '@/components/nodes/Console.vue'
 import Maven from '@/components/nodes/Maven.vue'
 import Param from '@/components/nodes/Param.vue'
 
-const { onDragOver, onDrop, onDragLeave, onDragStart, isDragOver } = useDragAndDropStore()
 const { addNodes, onConnect, addEdges } = useVueFlow()
 
 onConnect(addEdges)
 
-const addNode = (config: object) => {
+const addNode = (data: ElementData) => {
   const node: Node = {
-    ...config,
+    ...data,
     id: new Date().getTime().toString(),
     position: { x: 0, y: 50 }
   }
-  console.log(node)
   addNodes([node])
 }
 </script>
@@ -43,18 +40,18 @@ const addNode = (config: object) => {
             <div class="btn" @click="addNode({type: 'color-select'})">颜色选择</div>
           </li>
           <li>
-            <div class="btn" @click="addNode({type: 'console',data: { color: '#1C1C1C' }})">输出</div>
+            <div class="btn" @click="addNode({type: 'console'})">输出</div>
           </li>
           <li>
-            <div class="btn" @click="addNode({type: 'maven',data: { color: '#1C1C1C' }})">maven</div>
+            <div class="btn" @click="addNode({type: 'maven'})">maven</div>
           </li>
           <li>
-            <div class="btn" @click="addNode({type: 'param',data: [{ color: '#1C1C1C' }]})">param</div>
+            <div class="btn" @click="addNode({type: 'param'})">param</div>
           </li>
         </ul>
       </div>
     </div>
-    <VueFlow flex-1 @dragover="onDragOver" @dragleave="onDragLeave">
+    <VueFlow flex-1>
       <Background />
       <MiniMap />
       <Controls />

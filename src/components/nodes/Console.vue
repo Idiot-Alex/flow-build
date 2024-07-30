@@ -27,7 +27,9 @@ const valueType = (val) => {
       <div v-for="nKey in Object.keys(nodeData)" :key="nKey" class="form-control">
         <div v-if="valueType(nodeData[nKey]) === 'object'" class="label">
           <div class="label-text w-12">{{ nKey }}: </div>
-          <div class="label-text-alt">{{ JSON.stringify(nodeData[nKey]) }}</div>
+          <div class="label-text-alt">
+            <textarea :value="JSON.stringify(nodeData[nKey])" readonly class="textarea textarea-primary min-w-64"></textarea>
+          </div>
         </div>
         <div v-else class="label">
           <div class="label-text w-12">{{ nKey }}: </div>
