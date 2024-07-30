@@ -10,38 +10,28 @@ const nodeData = useNodesData(() => {
   return connections.value[0]?.source
 })
 
-const dataType = computed(() => {
-  const node = nodeData.value
-  if (node?.data === null) {
-    return 'null'
-  } else if (Array.isArray(node?.data)) {
-    return 'array'
-  } else {
-    return typeof node?.data
-  }
-})
+const valueType = (val) => {
+  return typeof val
+}
 </script>
 
 <template>
   <div class="console w-auto">
-    <div v-if="nodeData" v-for="nKey in Object.keys(nodeData)" :key="nKey">
-      <div v-if="nKey !== 'data'">
-        {{ nKey }}: {{ nodeData[nKey] }}
+    <details class="collapse collapse-arrow border-base-300 bg-base-200 border">
+      <summary class="collapse-title text-xl font-medium">Console</summary>
+      <div class="collapse-content">
+        <p>输出连接的节点信息</p>
       </div>
-      <div v-else>
-        <div>data: </div>
-        <div v-if="dataType === 'array'">
-          <div v-for="item in nodeData.data" :key="item">
-            {{ item }}
-          </div>
+    </details>
+    <div v-if="nodeData" class="form-control mt-2">
+      <div v-for="nKey in Object.keys(nodeData)" :key="nKey" class="form-control">
+        <div v-if="valueType(nodeData[nKey]) === 'object'" class="label">
+          <div class="label-text w-12">{{ nKey }}: </div>
+          <div class="label-text-alt">{{ JSON.stringify(nodeData[nKey]) }}</div>
         </div>
-        <div v-else-if="dataType === 'object'">
-          <div v-for="dKey in Object.keys(nodeData.data)" :key="dKey">
-          {{ dKey }}: {{ nodeData.data[dKey] }}
-          </div>
-        </div>
-        <div v-else>
-          {{ nodeData.data }}
+        <div v-else class="label">
+          <div class="label-text w-12">{{ nKey }}: </div>
+          <div class="label-text-alt">{{ nodeData[nKey] }}</div>
         </div>
       </div>
     </div>

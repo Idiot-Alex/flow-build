@@ -30,7 +30,7 @@ const delParam = (key) => {
 </script>
 
 <template>
-  <div class="param w-90">
+  <div class="param w-auto">
     <details class="collapse collapse-arrow border-base-300 bg-base-200 border">
       <summary class="collapse-title text-xl font-medium">Param</summary>
       <div class="collapse-content">

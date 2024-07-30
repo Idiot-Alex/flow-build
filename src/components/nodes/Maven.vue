@@ -15,7 +15,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="maven w-90">
+  <div class="maven w-auto">
     <details class="collapse collapse-arrow border-base-300 bg-base-200 border">
       <summary class="collapse-title text-xl font-medium">Maven</summary>
       <div class="collapse-content">
