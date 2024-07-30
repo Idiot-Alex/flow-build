@@ -44,21 +44,21 @@ const updateMavenNode = (data: ElementData) => {
       <div class="label">
         <span class="label-text">请输入 maven 命令</span>
       </div>
-      <textarea v-model="cmd" class="textarea textarea-primary w-full nowheel nodrag" @change="onCmdChange" placeholder="such as: clean package"></textarea>
+      <textarea v-model="cmd" class="textarea textarea-primary min-w-80 nowheel nodrag" @change="onCmdChange" placeholder="such as: clean package"></textarea>
     </div>
-    <div mt-2 flex>
+    <!-- <div mt-2 flex>
       <button class="btn btn-outline btn-primary mr-2">测试</button>
       <button class="btn btn-outline btn-accent mr-2">执行</button>
-    </div>
+    </div> -->
     <div class="form-control">
       <div class="label">
-        <span class="label-text">输出参数信息</span>
+        <span class="label-text">执行状态</span>
       </div>
     </div>
     <NodeToolbar is-visible="true">
-      <button class="btn">delete</button>
-      <button class="btn">copy</button>
-      <button class="btn">expand</button>
+      <button class="btn btn-outline btn-primary mr-2">单步执行</button>
+      <button class="btn btn-outline btn-accent mr-2">按钮 2 </button>
+      <button class="btn btn-outline">凑个数</button>
     </NodeToolbar>
     <Handle id="input" type="target" class="handle-input" :position="Position.Left" />
     <Handle id="output" type="source" class="handle-output" :position="Position.Right" />
