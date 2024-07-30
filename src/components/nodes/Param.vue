@@ -56,9 +56,9 @@ watch(param, (newVal) => {
         <button class="btn btn-outline label-text-alt nodrag" @click="addParam">新增参数</button>
       </div>
       <div class="join join-horizontal mb-2" v-for="(val, key) in param" :key="key">
-        <input :value="key" class="input input-bordered join-item w-32" placeholder="key" />
+        <input :value="key" class="input input-bordered join-item w-32 nowheel nodrag" placeholder="key" />
         <button class="btn btn-outline join-item"> = </button>
-        <input :value="val" class="input input-bordered join-item w-32" placeholder="value" />
+        <input :value="val" class="input input-bordered join-item w-32 nowheel nodrag" placeholder="value" />
         <button class="btn btn-outline join-item" @click="delParam(key)">删除</button>
       </div>
     </div>

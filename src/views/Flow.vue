@@ -8,6 +8,13 @@ import Console from '@/components/nodes/Console.vue'
 import Maven from '@/components/nodes/Maven.vue'
 import Param from '@/components/nodes/Param.vue'
 
+const nodeTypes = {
+  'color-select': markRaw(ColorSelect),
+  console: markRaw(Console),
+  maven: markRaw(Maven),
+  param: markRaw(Param),
+}
+
 const { addNodes, onConnect, addEdges } = useVueFlow()
 
 onConnect(addEdges)
@@ -40,7 +47,7 @@ const addNode = (data: ElementData) => {
             <div class="btn" @click="addNode({type: 'color-select'})">颜色选择</div>
           </li>
           <li>
-            <div class="btn" @click="addNode({type: 'console'})">输出</div>
+            <div class="btn" @click="addNode({type: 'console'})">console</div>
           </li>
           <li>
             <div class="btn" @click="addNode({type: 'maven'})">maven</div>
@@ -51,22 +58,10 @@ const addNode = (data: ElementData) => {
         </ul>
       </div>
     </div>
-    <VueFlow flex-1>
+    <VueFlow flex-1 :nodeTypes="nodeTypes">
       <Background />
       <MiniMap />
       <Controls />
-      <template #node-color-select="props">
-        <ColorSelect :id="props.id" :data="props.data" />
-      </template>
-      <template #node-console>
-        <Console />
-      </template>
-      <template #node-maven="props">
-        <Maven :id="props.id" :data="props.data"/>
-      </template>
-      <template #node-param="props">
-        <Param :id="props.id" :data="props.data"/>
-      </template>
     </VueFlow>
   </main>
 </template>

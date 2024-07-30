@@ -44,7 +44,7 @@ const updateMavenNode = (data: ElementData) => {
       <div class="label">
         <span class="label-text">请输入 maven 命令</span>
       </div>
-      <textarea v-model="cmd" class="textarea textarea-primary w-full" @change="onCmdChange" placeholder="such as: clean package"></textarea>
+      <textarea v-model="cmd" class="textarea textarea-primary w-full nowheel nodrag" @change="onCmdChange" placeholder="such as: clean package"></textarea>
     </div>
     <div mt-2 flex>
       <button class="btn btn-outline btn-primary mr-2">测试</button>
