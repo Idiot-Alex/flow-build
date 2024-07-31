@@ -46,5 +46,13 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
+  },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://192.168.3.29:3000', // 目标服务器地址
+        changeOrigin: true, // 改变请求源
+      }
+    }
   }
 })

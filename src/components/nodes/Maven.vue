@@ -2,7 +2,7 @@
 import { Handle, Position, useVueFlow, type ElementData } from '@vue-flow/core'
 import { NodeToolbar } from '@vue-flow/node-toolbar'
 
-const { updateNode } = useVueFlow()
+const { updateNode, findNode } = useVueFlow()
 const props = defineProps({
   id: {
     type: String,
@@ -17,16 +17,44 @@ const props = defineProps({
 const cmd = ref('')
 
 const onCmdChange = () => {
-  const data = {
-    ...props.data,
-    cmd: cmd.value,
-  }
-  updateMavenNode({data})
+  const node = findNode(props.id)
+  node.data.cmd = cmd.value
+  updateNode(props.id, node)
+  console.log(node.data)
 }
 
 const updateMavenNode = (data: ElementData) => {
-  console.log(data)
   updateNode(props.id, data)
+}
+
+const execCmd = async () => {
+  const url = '/api/node/exec'
+  const data = {
+    'nodeName': 'maven',
+    'cmd': cmd.value,
+  }
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok')
+    }
+
+    const responseData = await response.json()
+    console.log('Success:', responseData)
+
+    const node = findNode(props.id)
+    node.data.output = responseData
+    updateNode(props.id, node)
+  } catch (error) {
+    console.error('Error:', error)
+  }
 }
 </script>
 
@@ -56,8 +84,8 @@ const updateMavenNode = (data: ElementData) => {
       </div>
     </div>
     <NodeToolbar is-visible="true">
-      <button class="btn btn-outline btn-primary mr-2">单步执行</button>
-      <button class="btn btn-outline btn-accent mr-2">按钮 2 </button>
+      <button class="btn btn-outline btn-primary mr-2">测试节点</button>
+      <button class="btn btn-outline btn-accent mr-2" @click="execCmd">单步执行</button>
       <button class="btn btn-outline">凑个数</button>
     </NodeToolbar>
     <Handle id="input" type="target" class="handle-input" :position="Position.Left" />
