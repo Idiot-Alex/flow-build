@@ -6,12 +6,14 @@ import { Controls } from '@vue-flow/controls'
 import ColorSelect from '@/components/nodes/ColorSelect.vue'
 import Console from '@/components/nodes/Console.vue'
 import Maven from '@/components/nodes/Maven.vue'
+import Shell from '@/components/nodes/Shell.vue'
 import Param from '@/components/nodes/Param.vue'
 
 const nodeTypes = {
   'color-select': markRaw(ColorSelect),
   console: markRaw(Console),
   maven: markRaw(Maven),
+  shell: markRaw(Shell),
   param: markRaw(Param),
 }
 
@@ -48,6 +50,9 @@ const addNode = (data: ElementData) => {
           </li>
           <li>
             <div class="btn" @click="addNode({type: 'console'})">console</div>
+          </li>
+          <li>
+            <div class="btn" @click="addNode({type: 'shell'})">shell</div>
           </li>
           <li>
             <div class="btn" @click="addNode({type: 'maven'})">maven</div>
