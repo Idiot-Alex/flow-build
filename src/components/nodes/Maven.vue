@@ -15,6 +15,8 @@ const props = defineProps({
 })
 
 const cmd = ref('')
+const loading = ref(false)
+const statusMsg = ref('')
 
 const onCmdChange = () => {
   const node = findNode(props.id)
@@ -23,6 +25,7 @@ const onCmdChange = () => {
 }
 
 const execCmd = async () => {
+  loading.value = true
   const url = '/api/node/exec'
   const data = {
     'nodeName': 'maven',
@@ -47,9 +50,12 @@ const execCmd = async () => {
     const node = findNode(props.id)
     node.data.output = responseData
     updateNode(props.id, node)
+    statusMsg.value = '执行成功'
   } catch (error) {
     console.error('Error:', error)
+    statusMsg.value = '执行失败'
   }
+  loading.value = false
 }
 </script>
 
@@ -70,8 +76,9 @@ const execCmd = async () => {
       <textarea v-model="cmd" class="textarea textarea-primary min-w-80 nowheel nodrag" @change="onCmdChange" placeholder="such as: clean package"></textarea>
     </div>
     <div class="form-control">
-      <div class="label">
-        <span class="label-text">执行状态</span>
+      <div class="divider">
+        <span v-if="loading" class="loading loading-spinner loading-lg"></span>
+        <span v-else class="text-base-500">{{ statusMsg }}</span>
       </div>
     </div>
     <NodeToolbar is-visible="true">
