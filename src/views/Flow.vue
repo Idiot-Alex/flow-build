@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Position, VueFlow, type Node, type ElementData, useVueFlow } from '@vue-flow/core'
+import { Panel, Position, VueFlow, type Node, type ElementData, useVueFlow } from '@vue-flow/core'
 import { Background } from '@vue-flow/background'
 import { MiniMap } from '@vue-flow/minimap'
 import { Controls } from '@vue-flow/controls'
@@ -17,7 +17,7 @@ const nodeTypes = {
   param: markRaw(Param),
 }
 
-const { addNodes, onConnect, addEdges } = useVueFlow()
+const { addNodes, onConnect, addEdges, getNodes, getEdges } = useVueFlow()
 
 onConnect(addEdges)
 
@@ -32,14 +32,12 @@ const addNode = (data: ElementData) => {
 </script>
 
 <template>
-  <main data-theme="dark" class="theme-dark bg-line" z-1 flex w-100vw h-100vh @drop="onDrop">
-    <div w-300px>
+  <main data-theme="dark" class="theme-dark bg-line flex" z-1 flex w-100vw h-100vh @drop="onDrop">
+    <div class="min-w-300px w-auto z-2 no-drag">
       <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
       <div class="drawer-content flex flex-col items-center justify-center">
         <!-- Page content here -->
-        <label for="my-drawer-2" pos-absolute top-10px class="btn btn-primary drawer-button">
-          Open drawer
-        </label>
+        <!-- <label for="my-drawer-2" pos-absolute top-10px class="btn btn-primary drawer-button">Open drawer</label> -->
       </div>
       <div class="drawer-side">
         <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
@@ -67,6 +65,10 @@ const addNode = (data: ElementData) => {
       <Background />
       <MiniMap />
       <Controls />
+      <Panel class="flex gap-10" position="top-right">
+        <label class="btn btn-outline btn-primary">导出流程</label>
+        <label for="my-drawer-2" class="btn btn-outline btn-secondary drawer-button">打开侧边栏</label>
+      </Panel>
     </VueFlow>
   </main>
 </template>
