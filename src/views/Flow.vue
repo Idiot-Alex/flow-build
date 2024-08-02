@@ -34,6 +34,13 @@ const drawerOpen = ref(false)
 const toggleDrawer = () => {
   drawerOpen.value = !drawerOpen.value
 }
+
+const exportFlow = () => {
+  const nodes = getNodes
+  const edges = getEdges
+  console.log(JSON.stringify(nodes.value))
+  console.log(JSON.stringify(edges.value))
+}
 </script>
 
 <template>
@@ -70,8 +77,8 @@ const toggleDrawer = () => {
       <Background />
       <MiniMap />
       <Controls />
-      <Panel class="flex gap-10" position="top-right">
-        <label class="btn btn-outline btn-primary">导出流程</label>
+      <Panel class="flex gap-2" position="top-right">
+        <label class="btn btn-outline btn-primary" @click="exportFlow">导出流程</label>
         <label for="my-drawer-2" class="btn btn-outline btn-secondary drawer-button" @click="toggleDrawer">{{ drawerOpen ? '关闭' : '打开' }}侧边栏</label>
       </Panel>
     </VueFlow>
