@@ -1,6 +1,6 @@
 <script setup>
 import { Handle, Position, useHandleConnections, useNodesData, useVueFlow } from '@vue-flow/core'
-import { NodeResizer } from '@vue-flow/node-resizer'
+// import { NodeResizer } from '@vue-flow/node-resizer'
 
 const { updateNode, findNode } = useVueFlow()
 
@@ -30,6 +30,7 @@ const valueType = (val) => {
   return typeof val
 }
 
+// maybe you don't need this
 const shouldResize = (event, param) => {
   // event.dy y 轴缩小为负，放大为正
   const minHeight = consoleRef.value.offsetHeight + 20
@@ -42,6 +43,24 @@ const shouldResize = (event, param) => {
   updateNode(props.id, node)
   return true
 }
+
+// you don't need this
+/* const updateNodeSize = () => {
+  if (consoleRef.value) {
+    const node = findNode(props.id)
+    node.dimensions.height = consoleRef.value.offsetHeight + 20
+    updateNode(props.id, node)
+  }
+}
+
+const resizeObserver = new ResizeObserver(updateNodeSize)
+
+onMounted(() => {
+  if (consoleRef.value) {
+    resizeObserver.observe(consoleRef.value)
+  }
+}) */
+
 </script>
 
 <template>
@@ -66,13 +85,13 @@ const shouldResize = (event, param) => {
         </div>
       </div>
     </div>
-    <NodeResizer min-width="360" :should-resize="shouldResize"/>
+    <!-- <NodeResizer min-width="360" :should-resize="shouldResize"/> -->
     <Handle id="input" type="target" class="handle-input" connectable="single" :position="Position.Left" />
   </div>
 </template>
 
 <style lang="css">
-@import '@vue-flow/node-resizer/dist/style.css';
+/* @import '@vue-flow/node-resizer/dist/style.css'; */
 .vue-flow__node-console {
   border: 1px solid #777;
   padding: 10px;
