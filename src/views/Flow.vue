@@ -29,11 +29,16 @@ const addNode = (data: ElementData) => {
   }
   addNodes([node])
 }
+
+const drawerOpen = ref(false)
+const toggleDrawer = () => {
+  drawerOpen.value = !drawerOpen.value
+}
 </script>
 
 <template>
   <main data-theme="dark" class="theme-dark bg-line flex" z-1 flex w-100vw h-100vh @drop="onDrop">
-    <div class="min-w-300px w-auto z-2 no-drag">
+    <div :class="{'drawer-open': drawerOpen}" class="w-auto z-2 no-drag">
       <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
       <div class="drawer-content flex flex-col items-center justify-center">
         <!-- Page content here -->
@@ -67,7 +72,7 @@ const addNode = (data: ElementData) => {
       <Controls />
       <Panel class="flex gap-10" position="top-right">
         <label class="btn btn-outline btn-primary">导出流程</label>
-        <label for="my-drawer-2" class="btn btn-outline btn-secondary drawer-button">打开侧边栏</label>
+        <label for="my-drawer-2" class="btn btn-outline btn-secondary drawer-button" @click="toggleDrawer">{{ drawerOpen ? '关闭' : '打开' }}侧边栏</label>
       </Panel>
     </VueFlow>
   </main>
