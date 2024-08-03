@@ -21,6 +21,7 @@ const props = defineProps({
       <summary class="collapse-title text-xl font-medium">Start</summary>
       <div class="collapse-content">
         <p>流程的起始节点</p>
+        <p>只能有唯一一个</p>
       </div>
     </details>
     <Handle id="output" type="source" class="handle-output" :connectable-start="true" :connectable-end="false" :position="Position.Right" />

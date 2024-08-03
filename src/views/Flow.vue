@@ -85,9 +85,6 @@ const connectionMode = ConnectionMode.Strict
           <li>
             <div class="btn" @click="addNode({type: 'start'})">start</div>
           </li>
-          <li>
-            <div class="btn" @click="addNode({type: 'output'})">end</div>
-          </li>
         </ul>
       </div>
     </div>
