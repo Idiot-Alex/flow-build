@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { Panel, Position, VueFlow, type Node, type ElementData, useVueFlow } from '@vue-flow/core'
+import { Panel, Position, VueFlow, type Node, type ElementData, ConnectionMode, useVueFlow } from '@vue-flow/core'
+
 import { Background } from '@vue-flow/background'
 import { MiniMap } from '@vue-flow/minimap'
 import { Controls } from '@vue-flow/controls'
@@ -8,6 +9,7 @@ import Console from '@/components/nodes/Console.vue'
 import Maven from '@/components/nodes/Maven.vue'
 import Shell from '@/components/nodes/Shell.vue'
 import Param from '@/components/nodes/Param.vue'
+import Start from '@/components/nodes/Start.vue'
 
 const nodeTypes = {
   'color-select': markRaw(ColorSelect),
@@ -15,6 +17,7 @@ const nodeTypes = {
   maven: markRaw(Maven),
   shell: markRaw(Shell),
   param: markRaw(Param),
+  start: markRaw(Start),
 }
 
 const { addNodes, onConnect, addEdges, getNodes, getEdges } = useVueFlow()
@@ -22,6 +25,13 @@ const { addNodes, onConnect, addEdges, getNodes, getEdges } = useVueFlow()
 onConnect(addEdges)
 
 const addNode = (data: ElementData) => {
+  if (data.type === 'start') {
+    const nodes = getNodes
+    if (nodes.value.some(node => node.type === 'start')) {
+      alert('start node already exists')
+      return
+    }
+  }
   const node: Node = {
     ...data,
     id: new Date().getTime().toString(),
@@ -41,10 +51,12 @@ const exportFlow = () => {
   console.log(JSON.stringify(nodes.value))
   console.log(JSON.stringify(edges.value))
 }
+
+const connectionMode = ConnectionMode.Strict
 </script>
 
 <template>
-  <main data-theme="dark" class="theme-dark bg-line flex" z-1 flex w-100vw h-100vh @drop="onDrop">
+  <main data-theme="dark" class="theme-dark bg-line flex" z-1 flex w-100vw h-100vh>
     <div :class="{'drawer-open': drawerOpen}" class="w-auto z-2 no-drag">
       <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
       <div class="drawer-content flex flex-col items-center justify-center">
@@ -70,10 +82,16 @@ const exportFlow = () => {
           <li>
             <div class="btn" @click="addNode({type: 'param'})">param</div>
           </li>
+          <li>
+            <div class="btn" @click="addNode({type: 'start'})">start</div>
+          </li>
+          <li>
+            <div class="btn" @click="addNode({type: 'output'})">end</div>
+          </li>
         </ul>
       </div>
     </div>
-    <VueFlow flex-1 :nodeTypes="nodeTypes">
+    <VueFlow flex-1 :nodeTypes="nodeTypes" :connection-mode="connectionMode">
       <Background />
       <MiniMap />
       <Controls />

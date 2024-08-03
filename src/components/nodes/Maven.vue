@@ -81,7 +81,7 @@ const execCmd = async () => {
         <span v-else class="text-base-500">{{ statusMsg }}</span>
       </div>
     </div>
-    <NodeToolbar is-visible="true">
+    <NodeToolbar :is-visible="props.data.toolbarVisible">
       <button class="btn btn-outline btn-primary mr-2">测试节点</button>
       <button class="btn btn-outline btn-accent mr-2" @click="execCmd">单步执行</button>
       <button class="btn btn-outline">凑个数</button>
