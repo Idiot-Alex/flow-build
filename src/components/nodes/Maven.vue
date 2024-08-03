@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Handle, Position, useVueFlow, type ElementData } from '@vue-flow/core'
+import { Handle, Position, useVueFlow, type GraphNode } from '@vue-flow/core'
 import { NodeToolbar } from '@vue-flow/node-toolbar'
 
 const { updateNode, findNode } = useVueFlow()
@@ -19,7 +19,7 @@ const loading = ref(false)
 const statusMsg = ref('')
 
 const onCmdChange = () => {
-  const node = findNode(props.id)
+  const node: GraphNode = findNode(props.id) as GraphNode
   node.data.cmd = cmd.value
   updateNode(props.id, node)
 }
@@ -47,7 +47,7 @@ const execCmd = async () => {
     const responseData = await response.json()
     console.log('Success:', responseData)
 
-    const node = findNode(props.id)
+    const node: GraphNode = findNode(props.id) as GraphNode
     node.data.output = responseData
     updateNode(props.id, node)
     statusMsg.value = '执行成功'

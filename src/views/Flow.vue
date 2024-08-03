@@ -22,7 +22,13 @@ const nodeTypes = {
 
 const { addNodes, onConnect, addEdges, getNodes, getEdges } = useVueFlow()
 
-onConnect(addEdges)
+onConnect((connection) => {
+  const newConnection = {
+    ...connection,
+    animated: true,
+  }
+  addEdges(newConnection)
+})
 
 const addNode = (data: ElementData) => {
   if (data.type === 'start') {

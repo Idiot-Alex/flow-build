@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Handle, Position, useVueFlow, type ElementData } from '@vue-flow/core'
+import { Handle, Position, useVueFlow, type GraphNode } from '@vue-flow/core'
 import { NodeToolbar } from '@vue-flow/node-toolbar'
 
 const { updateNode, findNode } = useVueFlow()
@@ -17,7 +17,7 @@ const props = defineProps({
 const cmd = ref('')
 
 const onCmdChange = () => {
-  const node = findNode(props.id)
+  const node: GraphNode = findNode(props.id) as GraphNode
   node.data.cmd = cmd.value
   updateNode(props.id, node)
 }
@@ -44,7 +44,7 @@ const execCmd = async () => {
     const responseData = await response.json()
     console.log('Success:', responseData)
 
-    const node = findNode(props.id)
+    const node: GraphNode = findNode(props.id) as GraphNode
     node.data.output = responseData
     updateNode(props.id, node)
   } catch (error) {
@@ -74,7 +74,7 @@ const execCmd = async () => {
         <span class="label-text">执行状态</span>
       </div>
     </div>
-    <NodeToolbar is-visible="true">
+    <NodeToolbar :is-visible="props.data.toolbarVisible">
       <button class="btn btn-outline btn-primary mr-2">测试节点</button>
       <button class="btn btn-outline btn-accent mr-2" @click="execCmd">单步执行</button>
       <button class="btn btn-outline">凑个数</button>

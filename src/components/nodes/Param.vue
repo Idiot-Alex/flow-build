@@ -22,7 +22,7 @@ const addParam = () => {
   param.value[key] = val
 }
 
-const delParam = (key) => {
+const delParam = (key: any) => {
   delete param.value[key]
 }
 
@@ -32,7 +32,7 @@ const updateParamNode = (data: ElementData) => {
   updateNode(props.id, data)
 }
 
-watch(param, (newVal) => {
+watch(param, (newVal: any) => {
   console.log(newVal)
   const data = {
     ...props.data,
