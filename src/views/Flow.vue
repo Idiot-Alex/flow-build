@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Panel, Position, VueFlow, type Node, type ElementData, ConnectionMode, useVueFlow } from '@vue-flow/core'
+import { Panel, VueFlow, type Node, type ElementData, ConnectionMode, useVueFlow } from '@vue-flow/core'
 
 import { Background } from '@vue-flow/background'
 import { MiniMap } from '@vue-flow/minimap'
@@ -32,7 +32,13 @@ const addNode = (data: ElementData) => {
   if (data.type === 'start') {
     const nodes = getNodes
     if (nodes.value.some(node => node.type === 'start')) {
-      alert('start node already exists')
+      dialog.value = {
+        title: '提示',
+        message: '该节点同时只能存在一个',
+        closeBtn: '我知道了',
+      }
+      // @ts-ignore
+      document.getElementById('dialog').showModal()
       return
     }
   }
@@ -57,6 +63,12 @@ const exportFlow = () => {
 }
 
 const connectionMode = ConnectionMode.Strict
+
+const dialog = ref({
+  title: '提示',
+  message: '提示信息',
+  closeBtn: '关闭',
+})
 </script>
 
 <template>
@@ -98,6 +110,19 @@ const connectionMode = ConnectionMode.Strict
         <label for="my-drawer-2" class="btn btn-outline btn-secondary drawer-button" @click="toggleDrawer">{{ drawerOpen ? '关闭' : '打开' }}侧边栏</label>
       </Panel>
     </VueFlow>
+    <!-- dialog -->
+    <dialog id="dialog" class="modal modal-bottom sm:modal-middle">
+      <div class="modal-box">
+        <h3 class="text-lg font-bold">{{ dialog.title }}</h3>
+        <p class="py-4">{{ dialog.message }}</p>
+        <div class="modal-action">
+          <form method="dialog">
+            <!-- if there is a button in form, it will close the modal -->
+            <button class="btn">{{ dialog.closeBtn }}</button>
+          </form>
+        </div>
+      </div>
+    </dialog>
   </main>
 </template>
 
