@@ -4,7 +4,6 @@ import { Panel, Position, VueFlow, type Node, type ElementData, ConnectionMode, 
 import { Background } from '@vue-flow/background'
 import { MiniMap } from '@vue-flow/minimap'
 import { Controls } from '@vue-flow/controls'
-import ColorSelect from '@/components/nodes/ColorSelect.vue'
 import Console from '@/components/nodes/Console.vue'
 import Maven from '@/components/nodes/Maven.vue'
 import Shell from '@/components/nodes/Shell.vue'
@@ -12,7 +11,6 @@ import Param from '@/components/nodes/Param.vue'
 import Start from '@/components/nodes/Start.vue'
 
 const nodeTypes = {
-  'color-select': markRaw(ColorSelect),
   console: markRaw(Console),
   maven: markRaw(Maven),
   shell: markRaw(Shell),
@@ -74,7 +72,10 @@ const connectionMode = ConnectionMode.Strict
         <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
           <!-- Sidebar content here -->
           <li>
-            <div class="btn" @click="addNode({type: 'color-select'})">颜色选择</div>
+            <div class="btn" @click="addNode({type: 'start'})">start</div>
+          </li>
+          <li>
+            <div class="btn" @click="addNode({type: 'param'})">param</div>
           </li>
           <li>
             <div class="btn" @click="addNode({type: 'console'})">console</div>
@@ -84,12 +85,6 @@ const connectionMode = ConnectionMode.Strict
           </li>
           <li>
             <div class="btn" @click="addNode({type: 'maven'})">maven</div>
-          </li>
-          <li>
-            <div class="btn" @click="addNode({type: 'param'})">param</div>
-          </li>
-          <li>
-            <div class="btn" @click="addNode({type: 'start'})">start</div>
           </li>
         </ul>
       </div>

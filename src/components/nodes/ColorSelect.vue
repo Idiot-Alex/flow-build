@@ -1,6 +1,5 @@
 <script setup>
 import { Handle, Position, useVueFlow } from '@vue-flow/core'
-import { NodeToolbar } from '@vue-flow/node-toolbar'
 
 const presets = {
   sumi: '#1C1C1C',
@@ -64,11 +63,6 @@ function onGradient() {
 
 <template>
   <div c-black>Select a color</div>
-  <NodeToolbar is-visible="true">
-    <button class="btn">delete</button>
-    <button class="btn">copy</button>
-    <button class="btn">expand</button>
-  </NodeToolbar>
   <div class="color-select nodrag nopan">
     <button
       v-for="{ name: colorName, value: color } of colors"
