@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Panel, VueFlow, type Node, type ElementData, ConnectionMode, useVueFlow } from '@vue-flow/core'
+import { Panel, VueFlow, type Node, type ElementData, ConnectionMode, useVueFlow, type NodeComponent } from '@vue-flow/core'
 
 import { Background } from '@vue-flow/background'
 import { MiniMap } from '@vue-flow/minimap'
@@ -12,6 +12,7 @@ import Start from '@/components/nodes/Start.vue'
 import { useLayout } from '@/tools/layout'
 
 import { initialEdges, initialNodes } from '@/tools/test-elements.ts'
+import { markRaw, nextTick, ref } from 'vue'
 
 const nodes = ref(initialNodes)
 const edges = ref(initialEdges)
@@ -19,7 +20,7 @@ const edges = ref(initialEdges)
 const { addNodes, onConnect, addEdges, getNodes, getEdges, fitView } = useVueFlow()
 const { graph, layout, previousDirection } = useLayout()
 
-async function layoutGraph(direction) {
+async function layoutGraph(direction: string) {
   // await stop()
 
   // reset(nodes.value)
@@ -34,11 +35,11 @@ async function layoutGraph(direction) {
 }
 
 const nodeTypes = {
-  console: markRaw(Console),
-  maven: markRaw(Maven),
-  shell: markRaw(Shell),
-  param: markRaw(Param),
-  start: markRaw(Start),
+  'console': markRaw(Console) as NodeComponent,
+  'maven': markRaw(Maven) as NodeComponent,
+  'shell': markRaw(Shell) as NodeComponent,
+  'param': markRaw(Param) as NodeComponent,
+  'start': markRaw(Start) as NodeComponent,
 }
 
 
@@ -123,7 +124,7 @@ const dialog = ref({
         </ul>
       </div>
     </div>
-    <VueFlow flex-1 :nodes="nodes" :edges="edges" :nodeTypes="nodeTypes" :connection-mode="connectionMode"  @nodes-initialized="layoutGraph('LR')">
+    <VueFlow flex-1 :nodes="nodes" :edges="edges" :node-types="nodeTypes" :connection-mode="connectionMode"  @nodes-initialized="layoutGraph('LR')">
       <Background />
       <MiniMap />
       <Controls />

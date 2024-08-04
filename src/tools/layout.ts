@@ -1,5 +1,5 @@
 import dagre from '@dagrejs/dagre'
-import { Position, useVueFlow } from '@vue-flow/core'
+import { Position, useVueFlow, type Node, type Edge, type GraphNode } from '@vue-flow/core'
 import { ref } from 'vue'
 
 /**
@@ -13,7 +13,7 @@ export function useLayout() {
 
   const previousDirection = ref('LR')
 
-  function layout(nodes, edges, direction) {
+  function layout(nodes: Node[], edges: Edge[], direction: string) {
     // we create a new graph instance, in case some nodes/edges were removed, otherwise dagre would act as if they were still there
     const dagreGraph = new dagre.graphlib.Graph()
 
@@ -28,7 +28,7 @@ export function useLayout() {
 
     for (const node of nodes) {
       // if you need width+height of nodes for your layout, you can use the dimensions property of the internal node (`GraphNode` type)
-      const graphNode = findNode(node.id)
+      const graphNode: GraphNode = findNode(node.id) as GraphNode
 
       dagreGraph.setNode(node.id, { width: graphNode.dimensions.width || 150, height: graphNode.dimensions.height || 50 })
     }

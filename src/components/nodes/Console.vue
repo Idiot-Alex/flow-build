@@ -1,4 +1,4 @@
-<script setup>
+<script lang="ts" setup>
 import { Handle, Position, useHandleConnections, useNodesData, useVueFlow } from '@vue-flow/core'
 // import { NodeResizer } from '@vue-flow/node-resizer'
 

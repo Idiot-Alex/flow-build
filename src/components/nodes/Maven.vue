@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { Handle, Position, useVueFlow, type GraphNode } from '@vue-flow/core'
 import { NodeToolbar } from '@vue-flow/node-toolbar'
+import { ref } from 'vue';
 
 const { updateNode, findNode } = useVueFlow()
 const props = defineProps({

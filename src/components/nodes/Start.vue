@@ -1,7 +1,7 @@
-<script setup>
-import { Handle, Position, useHandleConnections, useNodesData, useVueFlow } from '@vue-flow/core'
+<script lang="ts" setup>
+import { Handle, Position, useVueFlow } from '@vue-flow/core'
 
-const { updateNode, findNode } = useVueFlow()
+const { } = useVueFlow()
 
 const props = defineProps({
   id: {

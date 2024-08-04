@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { Handle, Position, useVueFlow, type ElementData } from '@vue-flow/core'
 import { NodeToolbar } from '@vue-flow/node-toolbar'
+import { ref, watch } from 'vue';
 
 const { updateNode } = useVueFlow()
 const props = defineProps({
@@ -14,7 +15,7 @@ const props = defineProps({
   },
 })
 
-const param = ref({})
+const param = ref<any>({})
 const addParam = () => {
   const count = Object.keys(param.value).length
   const key = `key${count + 1}`
