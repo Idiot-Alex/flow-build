@@ -13,6 +13,14 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  sourcePosition: {
+    type: String,
+    default: Position.Right,
+  },
+  targetPosition: {
+    type: String,
+    default: Position.Left,
+  },
 })
 
 const param = ref<any>({})
@@ -63,8 +71,8 @@ watch(param, (newVal: any) => {
         <button class="btn btn-outline join-item" @click="delParam(key)">删除</button>
       </div>
     </div>
-    <Handle id="input" type="target" class="handle-input" :position="Position.Left" />
-    <Handle id="output" type="source" class="handle-output" :position="Position.Right" />
+    <Handle id="input" type="target" class="handle-input" :position="targetPosition" />
+    <Handle id="output" type="source" class="handle-output" :position="sourcePosition" />
   </div>
 </template>
 

@@ -29,7 +29,6 @@ export function useLayout() {
     for (const node of nodes) {
       // if you need width+height of nodes for your layout, you can use the dimensions property of the internal node (`GraphNode` type)
       const graphNode: GraphNode = findNode(node.id) as GraphNode
-
       dagreGraph.setNode(node.id, { width: graphNode.dimensions.width || 150, height: graphNode.dimensions.height || 50 })
     }
 

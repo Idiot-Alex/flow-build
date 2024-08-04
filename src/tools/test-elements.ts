@@ -6,12 +6,12 @@ export const initialNodes = [
   {
     id: '1',
     position,
-    type: nodeType,
+    type: 'start',
   },
   {
     id: '2',
     position,
-    type: nodeType,
+    type: 'shell',
   },
   {
     id: '2a',
@@ -21,43 +21,43 @@ export const initialNodes = [
   {
     id: '2b',
     position,
+    type: 'maven',
+  },
+  {
+    id: '2c',
+    position,
     type: nodeType,
   },
-  // {
-  //   id: '2c',
-  //   position,
-  //   type: nodeType,
-  // },
-  // {
-  //   id: '2d',
-  //   position,
-  //   type: nodeType,
-  // },
-  // {
-  //   id: '3',
-  //   position,
-  //   type: nodeType,
-  // },
-  // {
-  //   id: '4',
-  //   position,
-  //   type: nodeType,
-  // },
-  // {
-  //   id: '5',
-  //   position,
-  //   type: nodeType,
-  // },
-  // {
-  //   id: '6',
-  //   position,
-  //   type: nodeType,
-  // },
-  // {
-  //   id: '7',
-  //   position,
-  //   type: nodeType,
-  // },
+  {
+    id: '2d',
+    position,
+    type: 'maven',
+  },
+  {
+    id: '3',
+    position,
+    type: nodeType,
+  },
+  {
+    id: '4',
+    position,
+    type: 'shell',
+  },
+  {
+    id: '5',
+    position,
+    type: nodeType,
+  },
+  {
+    id: '6',
+    position,
+    type: nodeType,
+  },
+  {
+    id: '7',
+    position,
+    type: nodeType,
+  },
 ]
 
 export const initialEdges = [

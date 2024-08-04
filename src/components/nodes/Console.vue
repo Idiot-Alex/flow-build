@@ -13,6 +13,15 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+
+  sourcePosition: {
+    type: String,
+    default: Position.Right,
+  },
+  targetPosition: {
+    type: String,
+    default: Position.Left,
+  },
 })
 
 const consoleRef = ref(null)
@@ -86,7 +95,7 @@ onMounted(() => {
       </div>
     </div>
     <!-- <NodeResizer min-width="360" :should-resize="shouldResize"/> -->
-    <Handle id="input" type="target" class="handle-input" connectable="single" :position="Position.Left" />
+    <Handle id="input" type="target" class="handle-input" connectable="single" :position="targetPosition" />
   </div>
 </template>
 

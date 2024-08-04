@@ -13,6 +13,14 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  sourcePosition: {
+    type: String,
+    default: Position.Right,
+  },
+  targetPosition: {
+    type: String,
+    default: Position.Left,
+  },
 })
 
 const cmd = ref('')
@@ -87,8 +95,8 @@ const execCmd = async () => {
       <button class="btn btn-outline btn-accent mr-2" @click="execCmd">单步执行</button>
       <button class="btn btn-outline">凑个数</button>
     </NodeToolbar>
-    <Handle id="input" type="target" class="handle-input" :position="Position.Left" />
-    <Handle id="output" type="source" class="handle-output" :position="Position.Right" />
+    <Handle id="input" type="target" class="handle-input" :position="targetPosition" />
+    <Handle id="output" type="source" class="handle-output" :position="sourcePosition" />
   </div>
 </template>
 

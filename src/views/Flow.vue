@@ -27,7 +27,7 @@ async function layoutGraph(direction: string) {
 
   // const nodes = getNodes
   // const edges = getEdges
-  layout(nodes.value, edges.value, direction)
+  nodes.value = layout(nodes.value, edges.value, direction)
 
   nextTick(() => {
     fitView()
@@ -124,7 +124,7 @@ const dialog = ref({
         </ul>
       </div>
     </div>
-    <VueFlow flex-1 :nodes="nodes" :edges="edges" :node-types="nodeTypes" :connection-mode="connectionMode"  @nodes-initialized="layoutGraph('LR')">
+    <VueFlow flex-1 :nodes="nodes" :edges="edges" :node-types="nodeTypes" :connection-mode="connectionMode"  @nodes-initialized="layoutGraph('TB')">
       <Background />
       <MiniMap />
       <Controls />

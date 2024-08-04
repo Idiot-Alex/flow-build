@@ -12,6 +12,14 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  sourcePosition: {
+    type: String,
+    default: Position.Right,
+  },
+  targetPosition: {
+    type: String,
+    default: Position.Left,
+  },
 })
 </script>
 
@@ -24,7 +32,7 @@ const props = defineProps({
         <p>只能有唯一一个</p>
       </div>
     </details>
-    <Handle id="output" type="source" class="handle-output" :connectable-start="true" :connectable-end="false" :position="Position.Right" />
+    <Handle id="output" type="source" class="handle-output" :connectable-start="true" :connectable-end="false" :position="sourcePosition" />
   </div>
 </template>
 

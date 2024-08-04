@@ -94,3 +94,13 @@ body {
   --tw-bg-opacity: 1;
   background-color: var(--fallback-s, oklch(var(--s) / var(--tw-bg-opacity)));
 }
+/* .vue-flow__handle.vue-flow__handle-top {
+  left: 50%;
+  top: -10px;
+  transform: rotate(90deg) translate(0, 50%);
+}
+.vue-flow__handle.vue-flow__handle-bottom {
+  left: 50%;
+  bottom: -10px;
+  transform: rotate(90deg) translate(-50%, 50%);
+} */
