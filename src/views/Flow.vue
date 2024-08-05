@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Panel, VueFlow, type Node, type ElementData, ConnectionMode, useVueFlow, type NodeComponent } from '@vue-flow/core'
+import { Panel, VueFlow, type Node, type ElementData, ConnectionMode, useVueFlow, type NodeComponent, type EdgeComponent } from '@vue-flow/core'
 
 import { Background } from '@vue-flow/background'
 import { MiniMap } from '@vue-flow/minimap'
@@ -9,6 +9,7 @@ import Maven from '@/components/nodes/Maven.vue'
 import Shell from '@/components/nodes/Shell.vue'
 import Param from '@/components/nodes/Param.vue'
 import Start from '@/components/nodes/Start.vue'
+import Animation from '@/components/edges/Animation.vue'
 import { useLayout } from '@/tools/layout'
 
 import { initialEdges, initialNodes } from '@/tools/test-elements.ts'
@@ -40,6 +41,10 @@ const nodeTypes = {
   'shell': markRaw(Shell) as NodeComponent,
   'param': markRaw(Param) as NodeComponent,
   'start': markRaw(Start) as NodeComponent,
+}
+
+const edgeTypes = {
+  'animation': markRaw(Animation) as EdgeComponent,
 }
 
 
@@ -124,7 +129,7 @@ const dialog = ref({
         </ul>
       </div>
     </div>
-    <VueFlow flex-1 :nodes="nodes" :edges="edges" :node-types="nodeTypes" :connection-mode="connectionMode"  @nodes-initialized="layoutGraph('LR')">
+    <VueFlow flex-1 :nodes="nodes" :edges="edges" :node-types="nodeTypes" :edge-types="edgeTypes" :connection-mode="connectionMode"  @nodes-initialized="layoutGraph('LR')">
       <Background />
       <MiniMap />
       <Controls />
@@ -132,6 +137,19 @@ const dialog = ref({
         <label class="btn btn-outline btn-primary" @click="exportFlow">导出流程</label>
         <label for="my-drawer-2" class="btn btn-outline btn-secondary drawer-button" @click="toggleDrawer">{{ drawerOpen ? '关闭' : '打开' }}侧边栏</label>
       </Panel>
+      <template #edge-animation="edgeProps">
+        <Animation
+          :id="edgeProps.id"
+          :source="edgeProps.source"
+          :target="edgeProps.target"
+          :source-x="edgeProps.sourceX"
+          :source-y="edgeProps.sourceY"
+          :targetX="edgeProps.targetX"
+          :targetY="edgeProps.targetY"
+          :source-position="edgeProps.sourcePosition"
+          :target-position="edgeProps.targetPosition"
+        />
+      </template>
     </VueFlow>
     <!-- dialog -->
     <dialog id="dialog" class="modal modal-bottom sm:modal-middle">
