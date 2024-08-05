@@ -124,7 +124,7 @@ const dialog = ref({
         </ul>
       </div>
     </div>
-    <VueFlow flex-1 :nodes="nodes" :edges="edges" :node-types="nodeTypes" :connection-mode="connectionMode"  @nodes-initialized="layoutGraph('TB')">
+    <VueFlow flex-1 :nodes="nodes" :edges="edges" :node-types="nodeTypes" :connection-mode="connectionMode"  @nodes-initialized="layoutGraph('LR')">
       <Background />
       <MiniMap />
       <Controls />
