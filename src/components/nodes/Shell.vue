@@ -3,8 +3,9 @@ import { Handle, Position, useVueFlow, type GraphNode } from '@vue-flow/core'
 import { NodeToolbar } from '@vue-flow/node-toolbar'
 import { ref } from 'vue'
 import { useNodeStatus } from '@/tools/node-status'
+import NodeStatus from '@/components/NodeStatus.vue'
 
-const { processLabel } = useNodeStatus()
+const { getNodeStatus } = useNodeStatus()
 const { updateNode, findNode } = useVueFlow()
 const props = defineProps({
   id: {
@@ -27,7 +28,7 @@ const props = defineProps({
 
 const cmd = ref('')
 const loading = ref(false)
-const statusMsg = processLabel(props.id)
+const statusMsg = getNodeStatus(props.id)
 
 const onCmdChange = () => {
   const node: GraphNode = findNode(props.id) as GraphNode
@@ -82,17 +83,7 @@ const execCmd = async () => {
       </div>
       <textarea v-model="cmd" class="textarea textarea-primary min-w-80 nowheel nodrag" @change="onCmdChange" placeholder="such as: -c ls -l"></textarea>
     </div>
-    <div class="form-control">
-      <div class="label">
-        <span class="label-text">执行状态</span>
-      </div>
-    </div>
-    <div class="form-control">
-      <div class="divider">
-        <span v-if="loading" class="loading loading-spinner loading-lg"></span>
-        <span v-else class="text-base-500">{{ statusMsg }}</span>
-      </div>
-    </div>
+    <NodeStatus :id="props.id" />
     <NodeToolbar :is-visible="props.data.toolbarVisible">
       <button class="btn btn-outline btn-primary mr-2">测试节点</button>
       <button class="btn btn-outline btn-accent mr-2" @click="execCmd">单步执行</button>

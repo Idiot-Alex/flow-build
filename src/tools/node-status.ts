@@ -43,7 +43,7 @@ export function useNodeStatus() {
 
   const isReceiver = toRef(() => targetConnections.value.length <= 0)
 
-  function processLabel(nodeId: string) {
+  function getNodeStatus(nodeId: string) {
     const node: GraphNode = findNode(nodeId) as GraphNode
     if (node.data.hasError) {
       return toRef(statusMap.error)
@@ -63,5 +63,5 @@ export function useNodeStatus() {
     return toRef(statusMap.processor)
   }
 
-  return { processLabel, isSender, isReceiver }
+  return { getNodeStatus, isSender, isReceiver }
 }

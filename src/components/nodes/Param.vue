@@ -3,8 +3,9 @@ import { Handle, Position, useHandleConnections, useVueFlow, type ElementData } 
 import { NodeToolbar } from '@vue-flow/node-toolbar'
 import { ref, toRef, watch } from 'vue'
 import { useNodeStatus } from '@/tools/node-status'
+import NodeStatus from '@/components/NodeStatus.vue'
 
-const { processLabel } = useNodeStatus()
+const { getNodeStatus } = useNodeStatus()
 const { updateNode } = useVueFlow()
 const props = defineProps({
   id: {
@@ -26,7 +27,7 @@ const props = defineProps({
 })
 
 const loading = ref(false)
-const statusMsg = processLabel(props.id)
+const statusMsg = getNodeStatus(props.id)
 const param = ref<any>({})
 const addParam = () => {
   const count = Object.keys(param.value).length
@@ -77,14 +78,7 @@ watch(param, (newVal: any) => {
         <button class="btn btn-outline join-item" @click="delParam(key)">删除</button>
       </div>
     </div>
-    <div class="form-control">
-      <div class="divider">
-        <span v-if="loading" class="loading loading-spinner loading-lg"></span>
-        <div v-else  class="tooltip" data-tip="hello">
-          <span class="text-base-500">{{ statusMsg }}</span>
-        </div>
-      </div>
-    </div>
+    <NodeStatus :id="props.id" />
     <Handle id="input" type="target" class="handle-input" :position="targetPosition" />
     <Handle id="output" type="source" class="handle-output" :position="sourcePosition" />
   </div>

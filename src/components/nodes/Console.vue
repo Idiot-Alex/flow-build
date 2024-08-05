@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import { Handle, Position, useHandleConnections, useNodesData, useVueFlow } from '@vue-flow/core'
-import { useNodeStatus } from '@/tools/node-status'
 import { ref } from 'vue'
+import NodeStatus from '@/components/NodeStatus.vue'
 // import { NodeResizer } from '@vue-flow/node-resizer'
 
-const { processLabel } = useNodeStatus()
 const { updateNode, findNode } = useVueFlow()
 
 const props = defineProps({
@@ -29,7 +28,6 @@ const props = defineProps({
 
 const consoleRef = ref(null)
 const loading = ref(false)
-const statusMsg = processLabel(props.id)
 
 const connections = useHandleConnections({
   type: 'target',
@@ -99,12 +97,7 @@ onMounted(() => {
         </div>
       </div>
     </div>
-    <div class="form-control">
-      <div class="divider">
-        <span v-if="loading" class="loading loading-spinner loading-lg"></span>
-        <span v-else class="text-base-500">{{ statusMsg }}</span>
-      </div>
-    </div>
+    <NodeStatus :id="props.id" />
     <!-- <NodeResizer min-width="360" :should-resize="shouldResize"/> -->
     <Handle id="input" type="target" class="handle-input" connectable="single" :position="targetPosition" />
   </div>
