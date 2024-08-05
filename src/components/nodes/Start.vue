@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { Handle, Position, useVueFlow } from '@vue-flow/core'
+import { useNodeStatus } from '@/tools/node-status'
+import { ref } from 'vue'
 
+const { processLabel } = useNodeStatus()
 const { } = useVueFlow()
 
 const props = defineProps({
@@ -21,6 +24,9 @@ const props = defineProps({
     default: Position.Left,
   },
 })
+
+const loading = ref(false)
+const statusMsg = processLabel(props.id)
 </script>
 
 <template>
@@ -32,6 +38,12 @@ const props = defineProps({
         <p>只能有唯一一个</p>
       </div>
     </details>
+    <div class="form-control">
+      <div class="divider">
+        <span v-if="loading" class="loading loading-spinner loading-lg"></span>
+        <span v-else class="text-base-500">{{ statusMsg }}</span>
+      </div>
+    </div>
     <Handle id="output" type="source" class="handle-output" :connectable-start="true" :connectable-end="false" :position="sourcePosition" />
   </div>
 </template>

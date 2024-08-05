@@ -1,7 +1,10 @@
 <script lang="ts" setup>
 import { Handle, Position, useHandleConnections, useNodesData, useVueFlow } from '@vue-flow/core'
+import { useNodeStatus } from '@/tools/node-status'
+import { ref } from 'vue'
 // import { NodeResizer } from '@vue-flow/node-resizer'
 
+const { processLabel } = useNodeStatus()
 const { updateNode, findNode } = useVueFlow()
 
 const props = defineProps({
@@ -25,6 +28,8 @@ const props = defineProps({
 })
 
 const consoleRef = ref(null)
+const loading = ref(false)
+const statusMsg = processLabel(props.id)
 
 const connections = useHandleConnections({
   type: 'target',
@@ -35,7 +40,7 @@ const nodeData = useNodesData(() => {
   return connections.value[0]?.source
 })
 
-const valueType = (val) => {
+const valueType = (val: any) => {
   return typeof val
 }
 
@@ -92,6 +97,12 @@ onMounted(() => {
           <div class="label-text w-12">{{ nKey }}: </div>
           <div class="label-text-alt">{{ nodeData[nKey] }}</div>
         </div>
+      </div>
+    </div>
+    <div class="form-control">
+      <div class="divider">
+        <span v-if="loading" class="loading loading-spinner loading-lg"></span>
+        <span v-else class="text-base-500">{{ statusMsg }}</span>
       </div>
     </div>
     <!-- <NodeResizer min-width="360" :should-resize="shouldResize"/> -->

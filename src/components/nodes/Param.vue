@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import { Handle, Position, useHandleConnections, useVueFlow, type ElementData } from '@vue-flow/core'
 import { NodeToolbar } from '@vue-flow/node-toolbar'
-import { ref, toRef, watch } from 'vue';
+import { ref, toRef, watch } from 'vue'
+import { useNodeStatus } from '@/tools/node-status'
 
+const { processLabel } = useNodeStatus()
 const { updateNode } = useVueFlow()
 const props = defineProps({
   id: {
@@ -24,7 +26,7 @@ const props = defineProps({
 })
 
 const loading = ref(false)
-const statusMsg = ref('')
+const statusMsg = processLabel(props.id)
 const param = ref<any>({})
 const addParam = () => {
   const count = Object.keys(param.value).length
@@ -53,57 +55,6 @@ watch(param, (newVal: any) => {
 }, {deep: true})
 
 
-const sourceConnections = useHandleConnections({
-  type: 'target',
-})
-
-const targetConnections = useHandleConnections({
-  type: 'source',
-})
-
-const isSender = toRef(() => sourceConnections.value.length <= 0)
-
-const isReceiver = toRef(() => targetConnections.value.length <= 0)
-
-const bgColor = toRef(() => {
-  if (isSender.value) {
-    return '#2563eb'
-  }
-
-  if (props.data.hasError) {
-    return '#f87171'
-  }
-
-  if (props.data.isFinished) {
-    return '#42B983'
-  }
-
-  if (props.data.isCancelled) {
-    return '#fbbf24'
-  }
-
-  return '#4b5563'
-})
-
-const processLabel = toRef(() => {
-  if (props.data.hasError) {
-    return '❌'
-  }
-  if (props.data.isSkipped) {
-    return '🚧'
-  }
-  if (props.data.isCancelled) {
-    return '🚫'
-  }
-  if (isSender.value) {
-    return '📦'
-  }
-  if (props.data.isFinished) {
-    return '😎'
-  }
-
-  return '🏠'
-})
 </script>
 
 <template>
@@ -129,7 +80,9 @@ const processLabel = toRef(() => {
     <div class="form-control">
       <div class="divider">
         <span v-if="loading" class="loading loading-spinner loading-lg"></span>
-        <span v-else class="text-base-500">{{ statusMsg }}{{ processLabel }}</span>
+        <div v-else  class="tooltip" data-tip="hello">
+          <span class="text-base-500">{{ statusMsg }}</span>
+        </div>
       </div>
     </div>
     <Handle id="input" type="target" class="handle-input" :position="targetPosition" />

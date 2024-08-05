@@ -101,7 +101,7 @@ const dialog = ref({
 
 <template>
   <main data-theme="dark" class="theme-dark bg-line flex" z-1 flex w-100vw h-100vh>
-    <div :class="{'drawer-open': drawerOpen}" class="w-auto z-2 no-drag">
+    <div :class="{'drawer-open': drawerOpen}" class="w-auto z-2 nodrag">
       <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
       <div class="drawer-content flex flex-col items-center justify-center">
         <!-- Page content here -->

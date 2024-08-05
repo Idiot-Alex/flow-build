@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import { Handle, Position, useVueFlow, type GraphNode } from '@vue-flow/core'
 import { NodeToolbar } from '@vue-flow/node-toolbar'
-import { ref } from 'vue';
+import { ref } from 'vue'
+import { useNodeStatus } from '@/tools/node-status'
 
+const { processLabel } = useNodeStatus()
 const { updateNode, findNode } = useVueFlow()
 const props = defineProps({
   id: {
@@ -25,7 +27,7 @@ const props = defineProps({
 
 const cmd = ref('')
 const loading = ref(false)
-const statusMsg = ref('')
+const statusMsg = processLabel(props.id)
 
 const onCmdChange = () => {
   const node: GraphNode = findNode(props.id) as GraphNode
