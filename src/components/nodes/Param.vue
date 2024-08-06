@@ -1,11 +1,9 @@
 <script lang="ts" setup>
 import { Handle, Position, useHandleConnections, useVueFlow, type ElementData } from '@vue-flow/core'
 import { NodeToolbar } from '@vue-flow/node-toolbar'
-import { ref, toRef, watch } from 'vue'
-import { useNodeStatus } from '@/tools/node-status'
+import { ref, watch } from 'vue'
 import NodeStatus from '@/components/NodeStatus.vue'
 
-const { getNodeStatus } = useNodeStatus()
 const { updateNode } = useVueFlow()
 const props = defineProps({
   id: {
@@ -26,8 +24,6 @@ const props = defineProps({
   },
 })
 
-const loading = ref(false)
-const statusMsg = getNodeStatus(props.id)
 const param = ref<any>({})
 const addParam = () => {
   const count = Object.keys(param.value).length
@@ -46,16 +42,18 @@ const updateParamNode = (data: ElementData) => {
   updateNode(props.id, data)
 }
 
-watch(param, (newVal: any) => {
-  console.log(newVal)
-  const data = {
-    ...props.data,
-    param: newVal,
-  }
-  updateParamNode({data})
-}, {deep: true})
-
-
+watch(
+  () => param,
+  (newVal: any) => {
+    console.log(newVal)
+    const data = {
+      ...props.data,
+      param: newVal,
+    }
+    updateParamNode({data})
+  },
+  {deep: true}
+)
 </script>
 
 <template>
@@ -78,7 +76,7 @@ watch(param, (newVal: any) => {
         <button class="btn btn-outline join-item" @click="delParam(key)">删除</button>
       </div>
     </div>
-    <NodeStatus :id="props.id" />
+    <NodeStatus :id="props.id" :data="props.data"/>
     <Handle id="input" type="target" class="handle-input" :position="targetPosition" />
     <Handle id="output" type="source" class="handle-output" :position="sourcePosition" />
   </div>

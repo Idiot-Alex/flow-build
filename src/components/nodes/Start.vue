@@ -1,10 +1,7 @@
 <script lang="ts" setup>
 import { Handle, Position, useVueFlow } from '@vue-flow/core'
-import { useNodeStatus } from '@/tools/node-status'
-import { ref } from 'vue'
 import NodeStatus from '@/components/NodeStatus.vue'
 
-const { getNodeStatus } = useNodeStatus()
 const { } = useVueFlow()
 
 const props = defineProps({
@@ -25,9 +22,6 @@ const props = defineProps({
     default: Position.Left,
   },
 })
-
-const loading = ref(false)
-const nodeStatus = getNodeStatus(props.id)
 </script>
 
 <template>
@@ -39,7 +33,7 @@ const nodeStatus = getNodeStatus(props.id)
         <p>只能有唯一一个</p>
       </div>
     </details>
-    <NodeStatus :id="props.id" />
+    <NodeStatus :id="props.id" :data="props.data"/>
     <Handle id="output" type="source" class="handle-output" :connectable-start="true" :connectable-end="false" :position="sourcePosition" />
   </div>
 </template>

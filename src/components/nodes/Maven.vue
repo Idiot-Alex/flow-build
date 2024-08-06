@@ -3,7 +3,9 @@ import { Handle, Position, useVueFlow, type GraphNode } from '@vue-flow/core'
 import { NodeToolbar } from '@vue-flow/node-toolbar'
 import { ref } from 'vue'
 import NodeStatus from '@/components/NodeStatus.vue'
+import { useNodeStatus } from '@/tools/node-status'
 
+const { setNodeLoading, setNodeStatus } = useNodeStatus()
 const { updateNode, findNode } = useVueFlow()
 const props = defineProps({
   id: {
@@ -25,8 +27,6 @@ const props = defineProps({
 })
 
 const cmd = ref('')
-const loading = ref(false)
-const statusMsg = ref('')
 
 const onCmdChange = () => {
   const node: GraphNode = findNode(props.id) as GraphNode
@@ -35,7 +35,8 @@ const onCmdChange = () => {
 }
 
 const execCmd = async () => {
-  loading.value = true
+  setNodeLoading(props.id, true)
+
   const url = '/api/node/exec'
   const data = {
     'nodeName': 'maven',
@@ -59,14 +60,12 @@ const execCmd = async () => {
 
     const node: GraphNode = findNode(props.id) as GraphNode
     node.data.output = responseData
-    node.data.isFinished = true
     updateNode(props.id, node)
-    statusMsg.value = '执行成功'
+    setNodeStatus(props.id, 'isFinished')
   } catch (error) {
     console.error('Error:', error)
-    statusMsg.value = '执行失败'
+    setNodeStatus(props.id, 'hasError')
   }
-  loading.value = false
 }
 </script>
 
@@ -86,7 +85,7 @@ const execCmd = async () => {
       </div>
       <textarea v-model="cmd" class="textarea textarea-primary min-w-80 nowheel nodrag" @change="onCmdChange" placeholder="such as: clean package"></textarea>
     </div>
-    <NodeStatus :id="props.id" />
+    <NodeStatus :id="props.id" :data="props.data"/>
     <NodeToolbar :is-visible="props.data.toolbarVisible">
       <button class="btn btn-outline btn-primary mr-2">测试节点</button>
       <button class="btn btn-outline btn-accent mr-2" @click="execCmd">单步执行</button>

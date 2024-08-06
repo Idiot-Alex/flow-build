@@ -27,7 +27,6 @@ const props = defineProps({
 })
 
 const consoleRef = ref(null)
-const loading = ref(false)
 
 const connections = useHandleConnections({
   type: 'target',
@@ -97,7 +96,7 @@ onMounted(() => {
         </div>
       </div>
     </div>
-    <NodeStatus :id="props.id" />
+    <NodeStatus :id="props.id" :data="props.data"/>
     <!-- <NodeResizer min-width="360" :should-resize="shouldResize"/> -->
     <Handle id="input" type="target" class="handle-input" connectable="single" :position="targetPosition" />
   </div>

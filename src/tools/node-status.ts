@@ -1,5 +1,6 @@
 import { useHandleConnections, useVueFlow, type GraphNode } from '@vue-flow/core'
 import { toRef } from 'vue'
+import { type NodeState, type NodeDataStatus } from './types'
 
 const statusMap = {
   sender: {
@@ -29,7 +30,7 @@ const statusMap = {
 }
 
 export function useNodeStatus() {
-  const { findNode } = useVueFlow()
+  const { findNode, updateNode } = useVueFlow()
 
   const sourceConnections = useHandleConnections({
     type: 'target',
@@ -43,25 +44,57 @@ export function useNodeStatus() {
 
   const isReceiver = toRef(() => targetConnections.value.length <= 0)
 
-  function getNodeStatus(nodeId: string) {
+  function getNodeStatus(nodeId: string): NodeState {
     const node: GraphNode = findNode(nodeId) as GraphNode
     if (node.data.hasError) {
-      return toRef(statusMap.error)
+      return statusMap.error
     }
     if (node.data.isSkipped) {
-      return toRef(statusMap.skipped)
+      return statusMap.skipped
     }
     if (node.data.isCancelled) {
-      return toRef(statusMap.cancelled)
+      return statusMap.cancelled
     }
     if (isSender.value) {
-      return toRef(statusMap.sender)
+      return statusMap.sender
     }
     if (node.data.isFinished) {
-      return toRef(statusMap.finished)
+      return statusMap.finished
     }
-    return toRef(statusMap.processor)
+    return statusMap.processor
   }
 
-  return { getNodeStatus, isSender, isReceiver }
+  function resetNodeStatus(nodeId: string) {
+    const node = findNode(nodeId) as GraphNode
+    node.data = {
+      ...node.data,
+      isSkipped: false,
+      isFinished: false,
+      isCancelled: false,
+      hasError: false,
+      loading: false,
+    }
+    updateNode(nodeId, node)
+  }
+
+  function setNodeLoading(nodeId: string, loading = true) {
+    if (loading) {
+      resetNodeStatus(nodeId)
+    }
+    const node = findNode(nodeId) as GraphNode
+    node.data = {
+      ...node.data,
+      loading,
+    }
+    updateNode(nodeId, node)
+  }
+
+  function setNodeStatus(nodeId: string, status: NodeDataStatus) {
+    resetNodeStatus(nodeId)
+    const node = findNode(nodeId) as GraphNode
+    node.data[status] = true
+    console.log(node.data)
+    updateNode(nodeId, node)
+  }
+  return { getNodeStatus, setNodeLoading, setNodeStatus, isSender, isReceiver }
 }

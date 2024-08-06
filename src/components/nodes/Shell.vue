@@ -5,7 +5,7 @@ import { ref } from 'vue'
 import { useNodeStatus } from '@/tools/node-status'
 import NodeStatus from '@/components/NodeStatus.vue'
 
-const { getNodeStatus } = useNodeStatus()
+const { setNodeLoading, setNodeStatus } = useNodeStatus()
 const { updateNode, findNode } = useVueFlow()
 const props = defineProps({
   id: {
@@ -27,8 +27,6 @@ const props = defineProps({
 })
 
 const cmd = ref('')
-const loading = ref(false)
-const statusMsg = getNodeStatus(props.id)
 
 const onCmdChange = () => {
   const node: GraphNode = findNode(props.id) as GraphNode
@@ -37,6 +35,8 @@ const onCmdChange = () => {
 }
 
 const execCmd = async () => {
+  setNodeLoading(props.id, true)
+
   const url = '/api/node/exec'
   const data = {
     'nodeName': 'shell',
@@ -61,8 +61,10 @@ const execCmd = async () => {
     const node: GraphNode = findNode(props.id) as GraphNode
     node.data.output = responseData
     updateNode(props.id, node)
+    setNodeStatus(props.id, 'isFinished')
   } catch (error) {
     console.error('Error:', error)
+    setNodeStatus(props.id, 'hasError')
   }
 }
 </script>
@@ -83,7 +85,7 @@ const execCmd = async () => {
       </div>
       <textarea v-model="cmd" class="textarea textarea-primary min-w-80 nowheel nodrag" @change="onCmdChange" placeholder="such as: -c ls -l"></textarea>
     </div>
-    <NodeStatus :id="props.id" />
+    <NodeStatus :id="props.id" :data="props.data"/>
     <NodeToolbar :is-visible="props.data.toolbarVisible">
       <button class="btn btn-outline btn-primary mr-2">测试节点</button>
       <button class="btn btn-outline btn-accent mr-2" @click="execCmd">单步执行</button>
