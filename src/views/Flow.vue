@@ -83,6 +83,11 @@ const toggleDrawer = () => {
   drawerOpen.value = !drawerOpen.value
 }
 
+const execFlow = () => {
+  const nodes = getNodes
+  console.log(JSON.stringify(nodes.value))
+}
+
 const exportFlow = () => {
   const nodes = getNodes
   const edges = getEdges
@@ -134,6 +139,7 @@ const dialog = ref({
       <MiniMap />
       <Controls />
       <Panel class="flex gap-2" position="top-right">
+        <label class="btn btn-outline btn-accent" @click="execFlow">测试执行</label>
         <label class="btn btn-outline btn-primary" @click="exportFlow">导出流程</label>
         <label for="my-drawer-2" class="btn btn-outline btn-secondary drawer-button" @click="toggleDrawer">{{ drawerOpen ? '关闭' : '打开' }}侧边栏</label>
       </Panel>
