@@ -11,6 +11,7 @@ import Param from '@/components/nodes/Param.vue'
 import Start from '@/components/nodes/Start.vue'
 import Animation from '@/components/edges/Animation.vue'
 import { useLayout } from '@/tools/layout'
+import { useNodeProcess } from '@/tools/node-process'
 
 import { initialEdges, initialNodes } from '@/tools/test-elements.ts'
 import { markRaw, nextTick, ref } from 'vue'
@@ -18,8 +19,10 @@ import { markRaw, nextTick, ref } from 'vue'
 const nodes = ref(initialNodes)
 const edges = ref(initialEdges)
 
+const cancelOnError = ref(true)
 const { addNodes, onConnect, addEdges, getNodes, getEdges, fitView } = useVueFlow()
 const { graph, layout, previousDirection } = useLayout()
+const { run, stop, reset, isRunning } = useNodeProcess({ graph, cancelOnError })
 
 async function layoutGraph(direction: string) {
   // await stop()
@@ -84,8 +87,7 @@ const toggleDrawer = () => {
 }
 
 const execFlow = () => {
-  const nodes = getNodes
-  console.log(JSON.stringify(nodes.value))
+  run(nodes.value)
 }
 
 const exportFlow = () => {
