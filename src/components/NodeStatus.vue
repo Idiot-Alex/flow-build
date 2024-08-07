@@ -24,9 +24,8 @@ onMounted(() => {
 })
 watch(
   () => props.data,
-  (val) => {
+  () => {
     nodeStatus.value = getNodeStatus(props.id)
-    console.log('watch', val, nodeStatus)
   }, {deep: true}
 )
 </script>

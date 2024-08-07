@@ -1,5 +1,4 @@
-import { useHandleConnections, useVueFlow, type GraphNode } from '@vue-flow/core'
-import { computed, toRef } from 'vue'
+import { useVueFlow, type GraphNode } from '@vue-flow/core'
 import { type NodeState, type NodeDataStatus } from './types'
 
 const statusMap = {
@@ -32,22 +31,9 @@ const statusMap = {
 export function useNodeStatus() {
   const { findNode, updateNode } = useVueFlow()
 
-  const sourceConnections = useHandleConnections({
-    type: 'target',
-  })
-
-  const targetConnections = useHandleConnections({
-    type: 'source',
-  })
-
-  const isSender = computed(() => toRef(() => sourceConnections.value.length <= 0))
-
-  const isReceiver = computed(() => toRef(() => targetConnections.value.length <= 0))
-
   function getNodeStatus(nodeId: string): NodeState {
-    console.log('isSender', sourceConnections.value.length <= 0)
-    console.log('isReceiver', targetConnections.value.length <= 0)
     const node: GraphNode = findNode(nodeId) as GraphNode
+    console.log(node.data.type)
     if (node.data.hasError) {
       return statusMap.error
     }
@@ -57,7 +43,7 @@ export function useNodeStatus() {
     if (node.data.isCancelled) {
       return statusMap.cancelled
     }
-    if (isSender.value) {
+    if (node.type === 'start') {
       return statusMap.sender
     }
     if (node.data.isFinished) {
@@ -79,24 +65,11 @@ export function useNodeStatus() {
     updateNode(nodeId, node)
   }
 
-  // deprecated after
-  // function setNodeLoading(nodeId: string, loading = true) {
-  //   if (loading) {
-  //     resetNodeStatus(nodeId)
-  //   }
-  //   const node = findNode(nodeId) as GraphNode
-  //   node.data = {
-  //     ...node.data,
-  //     loading,
-  //   }
-  //   updateNode(nodeId, node)
-  // }
-
   function setNodeStatus(nodeId: string, status: NodeDataStatus) {
     resetNodeStatus(nodeId)
     const node = findNode(nodeId) as GraphNode
     node.data[status] = true
     updateNode(nodeId, node)
   }
-  return { getNodeStatus, setNodeStatus, isSender, isReceiver }
+  return { getNodeStatus, setNodeStatus }
 }
