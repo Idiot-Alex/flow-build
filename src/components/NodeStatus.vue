@@ -33,7 +33,7 @@ watch(
 <template>
   <div class="form-control">
     <div class="divider">
-      <span v-if="props.data.loading" class="loading loading-spinner loading-lg"></span>
+      <span v-if="props.data.isRunning" class="loading loading-spinner loading-lg"></span>
       <div class="tooltip" :data-tip="nodeStatus.tip">
         <span class="label-text">节点状态：</span>
         <span class="text-base-500">{{ nodeStatus.emoji }}</span>

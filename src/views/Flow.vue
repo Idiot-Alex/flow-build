@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Panel, VueFlow, type Node, type ElementData, ConnectionMode, useVueFlow, type NodeComponent, type EdgeComponent } from '@vue-flow/core'
+import { Panel, VueFlow, type Node, type ElementData, ConnectionMode, useVueFlow, type NodeComponent, type EdgeComponent, GraphNode } from '@vue-flow/core'
 
 import { Background } from '@vue-flow/background'
 import { MiniMap } from '@vue-flow/minimap'
@@ -16,13 +16,13 @@ import { useNodeProcess } from '@/tools/node-process'
 import { initialEdges, initialNodes } from '@/tools/test-elements.ts'
 import { markRaw, nextTick, ref } from 'vue'
 
-const nodes = ref(initialNodes)
+const nodes = ref<GraphNode[]>(initialNodes)
 const edges = ref(initialEdges)
 
 const cancelOnError = ref(true)
 const { addNodes, onConnect, addEdges, getNodes, getEdges, fitView } = useVueFlow()
 const { graph, layout, previousDirection } = useLayout()
-const { run, stop, reset, isRunning } = useNodeProcess({ graph, cancelOnError })
+const { run, stop, reset, isRunning } = useNodeProcess(graph, cancelOnError)
 
 async function layoutGraph(direction: string) {
   // await stop()

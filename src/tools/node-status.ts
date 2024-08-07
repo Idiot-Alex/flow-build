@@ -72,11 +72,12 @@ export function useNodeStatus() {
       isFinished: false,
       isCancelled: false,
       hasError: false,
-      loading: false,
+      isRunning: false,
     }
     updateNode(nodeId, node)
   }
 
+  // deprecated after
   function setNodeLoading(nodeId: string, loading = true) {
     if (loading) {
       resetNodeStatus(nodeId)

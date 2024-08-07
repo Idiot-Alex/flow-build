@@ -1,5 +1,6 @@
 import { ref, toRef, toValue } from 'vue'
-import { useVueFlow } from '@vue-flow/core'
+import { useVueFlow, type GraphNode } from '@vue-flow/core'
+import dagre from '@dagrejs/dagre'
 
 /**
  * Composable to simulate running a process tree.
@@ -9,7 +10,7 @@ import { useVueFlow } from '@vue-flow/core'
  *
  * When a node has multiple descendants, it will run them in parallel.
  */
-export function useNodeProcess({ graph: dagreGraph, cancelOnError = true }) {
+export function useNodeProcess(dagreGraph: dagre.graphlib.Graph, cancelOnError = true) {
   const { updateNodeData, getConnectedEdges } = useVueFlow()
 
   const graph = toRef(() => toValue(dagreGraph))
@@ -20,9 +21,9 @@ export function useNodeProcess({ graph: dagreGraph, cancelOnError = true }) {
 
   const runningTasks = new Map()
 
-  const upcomingTasks = new Set()
+  const upcomingTasks = new Set<string>()
 
-  async function runNode(node, isStart = false) {
+  async function runNode(node: GraphNode, isStart = false) {
     if (executedNodes.has(node.id)) {
       return
     }
@@ -67,7 +68,7 @@ export function useNodeProcess({ graph: dagreGraph, cancelOnError = true }) {
               await skipDescendants(node.id)
               runningTasks.delete(node.id)
 
-              resolve()
+              resolve({})
               return
             }
           }
@@ -78,10 +79,10 @@ export function useNodeProcess({ graph: dagreGraph, cancelOnError = true }) {
 
           if (children.length > 0) {
             // run the process on the children in parallel
-            await Promise.all(children.map((id) => runNode({ id })))
+            await Promise.all(children.map((id: string) => runNode({ id } as GraphNode)))
           }
 
-          resolve()
+          resolve({})
         },
         // if this is a starting node, we don't want to wait
         isStart ? 0 : delay,
@@ -92,7 +93,7 @@ export function useNodeProcess({ graph: dagreGraph, cancelOnError = true }) {
     })
   }
 
-  async function run(nodes) {
+  async function run(nodes: GraphNode[]) {
     if (isRunning.value) {
       return
     }
@@ -110,7 +111,7 @@ export function useNodeProcess({ graph: dagreGraph, cancelOnError = true }) {
     clear()
   }
 
-  function reset(nodes) {
+  function reset(nodes: GraphNode[]) {
     clear()
 
     for (const node of nodes) {
@@ -118,7 +119,7 @@ export function useNodeProcess({ graph: dagreGraph, cancelOnError = true }) {
     }
   }
 
-  async function skipDescendants(nodeId) {
+  async function skipDescendants(nodeId: string) {
     const children = graph.value.successors(nodeId)
 
     for (const child of children) {
@@ -157,12 +158,12 @@ export function useNodeProcess({ graph: dagreGraph, cancelOnError = true }) {
   return { run, stop, reset, isRunning }
 }
 
-async function until(condition) {
+async function until(condition: any) {
   return new Promise((resolve) => {
     const interval = setInterval(() => {
       if (condition()) {
         clearInterval(interval)
-        resolve()
+        resolve({})
       }
     }, 100)
   })

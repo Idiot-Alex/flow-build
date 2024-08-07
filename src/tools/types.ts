@@ -3,4 +3,4 @@ export type NodeState = {
   tip: string,
 }
 
-export type NodeDataStatus = 'isSkipped' | 'isFinished' | 'isCancelled' | 'hasError'
+export type NodeDataStatus = 'isSkipped' | 'isFinished' | 'isCancelled' | 'isRunning' | 'hasError'
