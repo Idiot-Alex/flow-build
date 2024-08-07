@@ -4,6 +4,7 @@ import { NodeToolbar } from '@vue-flow/node-toolbar'
 import { onMounted, ref } from 'vue'
 import NodeStatus from '@/components/NodeStatus.vue'
 import { useNodeStatus } from '@/tools/node-status'
+import { fetchWithTimeout } from '@/tools/http'
 
 const { setNodeStatus } = useNodeStatus()
 const { updateNode, findNode } = useVueFlow()
@@ -48,7 +49,7 @@ const execCmd = async (): Promise<boolean> => {
     'cmd': cmd.value,
   }
   try {
-    const response = await fetch(url, {
+    const response = await fetchWithTimeout(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
