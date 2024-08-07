@@ -1,5 +1,5 @@
 import { useHandleConnections, useVueFlow, type GraphNode } from '@vue-flow/core'
-import { toRef } from 'vue'
+import { computed, toRef } from 'vue'
 import { type NodeState, type NodeDataStatus } from './types'
 
 const statusMap = {
@@ -40,11 +40,13 @@ export function useNodeStatus() {
     type: 'source',
   })
 
-  const isSender = toRef(() => sourceConnections.value.length <= 0)
+  const isSender = computed(() => toRef(() => sourceConnections.value.length <= 0))
 
-  const isReceiver = toRef(() => targetConnections.value.length <= 0)
+  const isReceiver = computed(() => toRef(() => targetConnections.value.length <= 0))
 
   function getNodeStatus(nodeId: string): NodeState {
+    console.log('isSender', sourceConnections.value.length <= 0)
+    console.log('isReceiver', targetConnections.value.length <= 0)
     const node: GraphNode = findNode(nodeId) as GraphNode
     if (node.data.hasError) {
       return statusMap.error

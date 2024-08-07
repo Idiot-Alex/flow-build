@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Panel, VueFlow, type Node, type ElementData, ConnectionMode, useVueFlow, type NodeComponent, type EdgeComponent, GraphNode } from '@vue-flow/core'
+import { Panel, VueFlow, type ElementData, ConnectionMode, useVueFlow, type NodeComponent, type EdgeComponent, GraphNode, Edge, Connection } from '@vue-flow/core'
 
 import { Background } from '@vue-flow/background'
 import { MiniMap } from '@vue-flow/minimap'
@@ -14,15 +14,20 @@ import { useLayout } from '@/tools/layout'
 import { useNodeProcess } from '@/tools/node-process'
 
 import { initialEdges, initialNodes } from '@/tools/test-elements.ts'
-import { markRaw, nextTick, ref } from 'vue'
+import { markRaw, nextTick, onMounted, ref, toValue } from 'vue'
 
-const nodes = ref<GraphNode[]>(initialNodes)
-const edges = ref(initialEdges)
+const nodes = ref<GraphNode[]>([])
+const edges = ref<Edge[]>([])
 
 const cancelOnError = ref(true)
-const { addNodes, onConnect, addEdges, getNodes, getEdges, fitView } = useVueFlow()
+const { findNode, addNodes, onConnect, addEdges, getNodes, getEdges, fitView, updateNodeData } = useVueFlow()
 const { graph, layout, previousDirection } = useLayout()
 const { run, stop, reset, isRunning } = useNodeProcess(graph, cancelOnError.value)
+
+onMounted(() => {
+  nodes.value = toValue(getNodes)
+  edges.value = toValue(getEdges)
+})
 
 async function layoutGraph(direction: string) {
   await stop()
@@ -49,12 +54,21 @@ const edgeTypes = {
 }
 
 
-onConnect((connection) => {
+onConnect((connection: Connection) => {
   const newConnection = {
     ...connection,
+    type: 'animation',
     animated: true,
-  }
+  } as Edge
   addEdges(newConnection)
+  edges.value.push(newConnection)
+
+  const sourceNode = findNode(connection.source) as GraphNode
+  updateNodeData(sourceNode.id, {...sourceNode.data, timestamp: new Date().getTime()})
+  const targetNode = findNode(connection.target) as GraphNode
+  updateNodeData(targetNode.id, {...targetNode.data, timestamp: new Date().getTime()})
+
+  layoutGraph(previousDirection.value)
 })
 
 const addNode = (data: ElementData) => {
@@ -71,12 +85,15 @@ const addNode = (data: ElementData) => {
       return
     }
   }
-  const node: Node = {
+  const node: GraphNode = {
     ...data,
     id: new Date().getTime().toString(),
     position: { x: 0, y: 50 }
   }
+  nodes.value.push(node)
   addNodes([node])
+
+  layoutGraph(previousDirection.value)
 }
 
 const drawerOpen = ref(false)
