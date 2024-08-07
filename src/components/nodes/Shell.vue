@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { Handle, Position, useVueFlow, type GraphNode } from '@vue-flow/core'
 import { NodeToolbar } from '@vue-flow/node-toolbar'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useNodeStatus } from '@/tools/node-status'
 import NodeStatus from '@/components/NodeStatus.vue'
 
-const { setNodeLoading, setNodeStatus } = useNodeStatus()
+const { setNodeStatus } = useNodeStatus()
 const { updateNode, findNode } = useVueFlow()
 const props = defineProps({
   id: {
@@ -28,15 +28,19 @@ const props = defineProps({
 
 const cmd = ref('')
 
+onMounted(() => {
+  const node: GraphNode = findNode(props.id) as GraphNode
+  node.data.run = execCmd
+  updateNode(props.id, node)
+})
+
 const onCmdChange = () => {
   const node: GraphNode = findNode(props.id) as GraphNode
   node.data.cmd = cmd.value
   updateNode(props.id, node)
 }
 
-const execCmd = async () => {
-  setNodeLoading(props.id, true)
-
+const execCmd = async (): Promise<boolean> => {
   const url = '/api/node/exec'
   const data = {
     'nodeName': 'shell',
@@ -62,9 +66,11 @@ const execCmd = async () => {
     node.data.output = responseData
     updateNode(props.id, node)
     setNodeStatus(props.id, 'isFinished')
+    return true
   } catch (error) {
     console.error('Error:', error)
     setNodeStatus(props.id, 'hasError')
+    return false
   }
 }
 </script>

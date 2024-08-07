@@ -1,4 +1,4 @@
-import { ref, toRef, toValue } from 'vue'
+import { ref, toRef, toValue, type Ref } from 'vue'
 import { useVueFlow, type GraphNode } from '@vue-flow/core'
 import dagre from '@dagrejs/dagre'
 
@@ -10,8 +10,8 @@ import dagre from '@dagrejs/dagre'
  *
  * When a node has multiple descendants, it will run them in parallel.
  */
-export function useNodeProcess(dagreGraph: dagre.graphlib.Graph, cancelOnError = true) {
-  const { updateNodeData, getConnectedEdges } = useVueFlow()
+export function useNodeProcess(dagreGraph: Ref<dagre.graphlib.Graph>, cancelOnError = true) {
+  const { findNode, updateNodeData, getConnectedEdges } = useVueFlow()
 
   const graph = toRef(() => toValue(dagreGraph))
 
@@ -34,7 +34,9 @@ export function useNodeProcess(dagreGraph: dagre.graphlib.Graph, cancelOnError =
     const incomers = getConnectedEdges(node.id).filter((connection) => connection.target === node.id)
 
     // wait for edge animations to finish before starting the process
-    await Promise.all(incomers.map((incomer) => until(() => !incomer.data.isAnimating)))
+    await Promise.all(incomers.map((incomer) => {
+      return until(() => !incomer.data.isAnimating)
+    }))
 
     // remove the upcoming task since we are about to start it
     upcomingTasks.clear()
@@ -55,10 +57,14 @@ export function useNodeProcess(dagreGraph: dagre.graphlib.Graph, cancelOnError =
     return new Promise((resolve) => {
       const timeout = setTimeout(
         async () => {
-          const children = graph.value.successors(node.id)
+          const children = graph.value.successors(node.id) as Array<any>
 
           // randomly decide whether the node will throw an error
-          const willThrowError = Math.random() < 0.15
+          let willThrowError = false
+          const origNode = findNode(node.id) as GraphNode
+          if (origNode.data.run) {
+            willThrowError = !await origNode.data.run()
+          }
 
           // we avoid throwing an error on the starting node
           if (!isStart && willThrowError) {
@@ -120,7 +126,7 @@ export function useNodeProcess(dagreGraph: dagre.graphlib.Graph, cancelOnError =
   }
 
   async function skipDescendants(nodeId: string) {
-    const children = graph.value.successors(nodeId)
+    const children = graph.value.successors(nodeId) as Array<any>
 
     for (const child of children) {
       updateNodeData(child, { isRunning: false, isSkipped: true })

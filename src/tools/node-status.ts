@@ -78,24 +78,23 @@ export function useNodeStatus() {
   }
 
   // deprecated after
-  function setNodeLoading(nodeId: string, loading = true) {
-    if (loading) {
-      resetNodeStatus(nodeId)
-    }
-    const node = findNode(nodeId) as GraphNode
-    node.data = {
-      ...node.data,
-      loading,
-    }
-    updateNode(nodeId, node)
-  }
+  // function setNodeLoading(nodeId: string, loading = true) {
+  //   if (loading) {
+  //     resetNodeStatus(nodeId)
+  //   }
+  //   const node = findNode(nodeId) as GraphNode
+  //   node.data = {
+  //     ...node.data,
+  //     loading,
+  //   }
+  //   updateNode(nodeId, node)
+  // }
 
   function setNodeStatus(nodeId: string, status: NodeDataStatus) {
     resetNodeStatus(nodeId)
     const node = findNode(nodeId) as GraphNode
     node.data[status] = true
-    console.log(node.data)
     updateNode(nodeId, node)
   }
-  return { getNodeStatus, setNodeLoading, setNodeStatus, isSender, isReceiver }
+  return { getNodeStatus, setNodeStatus, isSender, isReceiver }
 }

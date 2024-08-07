@@ -22,15 +22,13 @@ const edges = ref(initialEdges)
 const cancelOnError = ref(true)
 const { addNodes, onConnect, addEdges, getNodes, getEdges, fitView } = useVueFlow()
 const { graph, layout, previousDirection } = useLayout()
-const { run, stop, reset, isRunning } = useNodeProcess(graph, cancelOnError)
+const { run, stop, reset, isRunning } = useNodeProcess(graph, cancelOnError.value)
 
 async function layoutGraph(direction: string) {
-  // await stop()
+  await stop()
 
-  // reset(nodes.value)
+  reset(nodes.value)
 
-  // const nodes = getNodes
-  // const edges = getEdges
   nodes.value = layout(nodes.value, edges.value, direction)
 
   nextTick(() => {
