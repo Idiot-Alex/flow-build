@@ -131,22 +131,23 @@ const dialog = ref({
       </div>
       <div class="drawer-side">
         <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
-        <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+        <h2 class="text-xl font-bold text-center mt-2">节点列表</h2>
+        <ul class="menu bg-base-200 text-base-content min-h-full w-40 p-4 gap-10px">
           <!-- Sidebar content here -->
           <li>
-            <div class="btn" @click="addNode({type: 'start'})">start</div>
+            <div class="btn btn-primary" @click="addNode({type: 'start'})">开始节点</div>
           </li>
           <li>
-            <div class="btn" @click="addNode({type: 'param'})">param</div>
+            <div class="btn btn-primary" @click="addNode({type: 'param'})">参数节点</div>
           </li>
           <li>
-            <div class="btn" @click="addNode({type: 'console'})">console</div>
+            <div class="btn btn-primary" @click="addNode({type: 'console'})">输出节点</div>
           </li>
           <li>
-            <div class="btn" @click="addNode({type: 'shell'})">shell</div>
+            <div class="btn btn-primary" @click="addNode({type: 'shell'})">Shell 节点</div>
           </li>
           <li>
-            <div class="btn" @click="addNode({type: 'maven'})">maven</div>
+            <div class="btn btn-primary" @click="addNode({type: 'maven'})">Maven 节点</div>
           </li>
         </ul>
       </div>

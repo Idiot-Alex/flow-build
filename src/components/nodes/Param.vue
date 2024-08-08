@@ -38,7 +38,6 @@ const delParam = (key: any) => {
 
 
 const updateParamNode = (data: ElementData) => {
-  console.log(data)
   updateNode(props.id, data)
 }
 

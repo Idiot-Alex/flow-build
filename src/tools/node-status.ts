@@ -33,7 +33,6 @@ export function useNodeStatus() {
 
   function getNodeStatus(nodeId: string): NodeState {
     const node: GraphNode = findNode(nodeId) as GraphNode
-    console.log(node.data.type)
     if (node.data.hasError) {
       return statusMap.error
     }
