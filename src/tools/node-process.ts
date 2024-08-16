@@ -23,6 +23,37 @@ export function useNodeProcess(dagreGraph: Ref<dagre.graphlib.Graph>, cancelOnEr
 
   const upcomingTasks = new Set<string>()
 
+  // 广度优先搜索（BFS）遍历图
+  async function bfs(startNodeId: any = null) {
+    // find start node id if not provided
+    if (!startNodeId) {
+      const startNodes = graph.value.nodes().filter(nId => {
+        const flag = graph.value.predecessors(nId)?.length === 0
+        const start = findNode(nId)?.type === 'start'
+        return flag && start
+      })
+      startNodeId = startNodes[0]
+    }
+
+    const visited = new Set()
+    const queue = [startNodeId]
+  
+    while (queue.length > 0) {
+      const nodeId = queue.shift()
+      if (!visited.has(nodeId)) {
+        visited.add(nodeId)
+        const neighbors = graph.value.neighbors(nodeId) as Array<any>
+        for (const neighbor of neighbors) {
+          console.log(neighbor)
+          if (!visited.has(neighbor)) {
+            queue.push(neighbor)
+          }
+        }
+      }
+    }
+    console.log(visited)
+  }
+
   async function runNode(node: GraphNode, isStart = false) {
     if (executedNodes.has(node.id)) {
       return
@@ -161,7 +192,7 @@ export function useNodeProcess(dagreGraph: Ref<dagre.graphlib.Graph>, cancelOnEr
     runningTasks.clear()
   }
 
-  return { run, stop, reset, isRunning }
+  return { run, stop, reset, isRunning, bfs }
 }
 
 async function until(condition: any) {

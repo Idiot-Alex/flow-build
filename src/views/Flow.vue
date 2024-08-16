@@ -22,7 +22,7 @@ const edges = ref<Edge[]>([])
 const cancelOnError = ref(true)
 const { findNode, addNodes, onConnect, addEdges, getNodes, getEdges, fitView, updateNodeData } = useVueFlow()
 const { graph, layout, previousDirection } = useLayout()
-const { run, stop, reset, isRunning } = useNodeProcess(graph, cancelOnError.value)
+const { run, stop, reset, isRunning, bfs } = useNodeProcess(graph, cancelOnError.value)
 
 onMounted(() => {
   nodes.value = toValue(getNodes)
@@ -110,6 +110,7 @@ const exportFlow = () => {
   const edges = getEdges
   console.log(JSON.stringify(nodes.value))
   console.log(JSON.stringify(edges.value))
+  bfs()
 }
 
 const connectionMode = ConnectionMode.Strict
