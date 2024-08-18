@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Panel, VueFlow, type ElementData, ConnectionMode, useVueFlow, type NodeComponent, type EdgeComponent, GraphNode, Edge, Connection } from '@vue-flow/core'
+import { Panel, VueFlow, type ElementData, ConnectionMode, useVueFlow, type NodeComponent, type EdgeComponent, type GraphNode, type Edge, type Connection, type NodeChange, type EdgeChange } from '@vue-flow/core'
 
 import { Background } from '@vue-flow/background'
 import { MiniMap } from '@vue-flow/minimap'
@@ -20,7 +20,7 @@ const nodes = ref<GraphNode[]>([])
 const edges = ref<Edge[]>([])
 
 const cancelOnError = ref(true)
-const { findNode, addNodes, onConnect, addEdges, getNodes, getEdges, fitView, updateNodeData } = useVueFlow()
+const { findNode, addNodes, onConnect, onNodesChange, applyNodeChanges, addEdges, getNodes, getEdges, fitView, updateNodeData } = useVueFlow()
 const { graph, layout, previousDirection } = useLayout()
 const { run, stop, reset, isRunning, bfs } = useNodeProcess(graph, cancelOnError.value)
 
@@ -71,7 +71,17 @@ onConnect((connection: Connection) => {
   layoutGraph(previousDirection.value)
 })
 
-const addNode = (data: ElementData) => {
+onNodesChange(async (changes: NodeChange[]) => {
+  nodes.value = applyNodeChanges(changes)
+})
+
+// onEdgesChange(async (changes: EdgeChange[]) => {
+//   for (const change of changes) {
+//     edges.value = applyEdgeChanges([change])
+//   }
+// })
+
+const addNode = async (data: ElementData) => {
   if (data.type === 'start') {
     const nodes = getNodes
     if (nodes.value.some(node => node.type === 'start')) {
@@ -88,9 +98,8 @@ const addNode = (data: ElementData) => {
   const node: GraphNode = {
     ...data,
     id: new Date().getTime().toString(),
-    position: { x: 0, y: 50 }
+    position: { x: 0, y: 50 },
   }
-  nodes.value.push(node)
   addNodes([node])
 
   layoutGraph(previousDirection.value)
