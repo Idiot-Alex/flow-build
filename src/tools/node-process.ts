@@ -37,11 +37,13 @@ export function useNodeProcess(dagreGraph: Ref<dagre.graphlib.Graph>, cancelOnEr
 
     const visited = new Set()
     const queue = [startNodeId]
+    const nodeList = []
   
     while (queue.length > 0) {
       const nodeId = queue.shift()
       if (!visited.has(nodeId)) {
         visited.add(nodeId)
+        nodeList.push({id: nodeId, prev: queue[0]})
         const neighbors = graph.value.neighbors(nodeId) as Array<any>
         for (const neighbor of neighbors) {
           console.log(neighbor)
@@ -52,6 +54,18 @@ export function useNodeProcess(dagreGraph: Ref<dagre.graphlib.Graph>, cancelOnEr
       }
     }
     console.log(visited)
+    console.log(nodeList)
+
+    // 获取节点的拓扑排序
+    const order: string[] = dagre.graphlib.alg.topsort(graph.value)
+    console.log('节点执行顺序:', order)
+
+    // 获取每个节点的直接前驱节点
+    const predecessors: any = {}
+    order.forEach((node: string) => {
+        predecessors[node] = graph.value.predecessors(node)
+    })
+    console.log('节点的直接前驱节点:', predecessors)
   }
 
   async function runNode(node: GraphNode, isStart = false) {
