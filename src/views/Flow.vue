@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Panel, VueFlow, type ElementData, ConnectionMode, useVueFlow, type NodeComponent, type EdgeComponent, type GraphNode, type Edge, type Connection, type NodeChange, type EdgeChange } from '@vue-flow/core'
+import { Panel, VueFlow, type ElementData, ConnectionMode, useVueFlow, type NodeComponent, type EdgeComponent, type GraphNode, type Edge, type Connection, type NodeChange, type EdgeChange, VueFlowError } from '@vue-flow/core'
 
 import { Background } from '@vue-flow/background'
 import { MiniMap } from '@vue-flow/minimap'
@@ -22,7 +22,7 @@ const edges = ref<Edge[]>([])
 const cancelOnError = ref(true)
 const { findNode, addNodes, onConnect, onNodesChange, applyNodeChanges, addEdges, getNodes, getEdges, fitView, updateNodeData } = useVueFlow()
 const { graph, layout, previousDirection } = useLayout()
-const { run, stop, reset, isRunning, bfs } = useNodeProcess(graph, cancelOnError.value)
+const { run, stop, reset, isRunning, sorting } = useNodeProcess(graph, cancelOnError.value)
 
 onMounted(() => {
   nodes.value = toValue(getNodes)
@@ -114,12 +114,16 @@ const execFlow = () => {
   run(nodes.value)
 }
 
-const exportFlow = () => {
+const exportFlow = async () => {
   const nodes = getNodes
   const edges = getEdges
-  console.log(JSON.stringify(nodes.value))
-  console.log(JSON.stringify(edges.value))
-  bfs()
+  const sort = await sorting()
+  const flow = {
+    nodes: nodes.value,
+    edges: edges.value,
+    sort: sort,
+  }
+  console.log(flow)
 }
 
 const connectionMode = ConnectionMode.Strict

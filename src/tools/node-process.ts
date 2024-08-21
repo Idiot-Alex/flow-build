@@ -23,49 +23,20 @@ export function useNodeProcess(dagreGraph: Ref<dagre.graphlib.Graph>, cancelOnEr
 
   const upcomingTasks = new Set<string>()
 
-  // 广度优先搜索（BFS）遍历图
-  async function bfs(startNodeId: any = null) {
-    // find start node id if not provided
-    if (!startNodeId) {
-      const startNodes = graph.value.nodes().filter(nId => {
-        const flag = graph.value.predecessors(nId)?.length === 0
-        const start = findNode(nId)?.type === 'start'
-        return flag && start
-      })
-      startNodeId = startNodes[0]
-    }
-
-    const visited = new Set()
-    const queue = [startNodeId]
-    const nodeList = []
-  
-    while (queue.length > 0) {
-      const nodeId = queue.shift()
-      if (!visited.has(nodeId)) {
-        visited.add(nodeId)
-        nodeList.push({id: nodeId, prev: queue[0]})
-        const neighbors = graph.value.neighbors(nodeId) as Array<any>
-        for (const neighbor of neighbors) {
-          console.log(neighbor)
-          if (!visited.has(neighbor)) {
-            queue.push(neighbor)
-          }
-        }
-      }
-    }
-    console.log(visited)
-    console.log(nodeList)
-
+  // 排序
+  async function sorting(): Promise<any> {
     // 获取节点的拓扑排序
     const order: string[] = dagre.graphlib.alg.topsort(graph.value)
-    console.log('节点执行顺序:', order)
 
     // 获取每个节点的直接前驱节点
     const predecessors: any = {}
     order.forEach((node: string) => {
         predecessors[node] = graph.value.predecessors(node)
     })
-    console.log('节点的直接前驱节点:', predecessors)
+    return {
+      order,
+      predecessors,
+    }
   }
 
   async function runNode(node: GraphNode, isStart = false) {
@@ -206,7 +177,7 @@ export function useNodeProcess(dagreGraph: Ref<dagre.graphlib.Graph>, cancelOnEr
     runningTasks.clear()
   }
 
-  return { run, stop, reset, isRunning, bfs }
+  return { run, stop, reset, isRunning, sorting }
 }
 
 async function until(condition: any) {
