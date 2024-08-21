@@ -29,16 +29,11 @@ onMounted(() => {
   edges.value = toValue(getEdges)
 })
 
-async function layoutGraph(direction: string) {
+const layoutGraph = async (direction: string) => {
   await stop()
-
   reset(nodes.value)
-
   nodes.value = layout(nodes.value, edges.value, direction)
-
-  nextTick(() => {
-    fitView()
-  })
+  await nextTick(() => fitView())
 }
 
 const nodeTypes = {
