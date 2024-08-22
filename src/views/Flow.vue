@@ -110,15 +110,27 @@ const execFlow = () => {
 }
 
 const exportFlow = async () => {
-  const nodes = getNodes
-  const edges = getEdges
-  const sort = await sorting()
-  const flow = {
-    nodes: nodes.value,
-    edges: edges.value,
-    sort: sort,
+  const fileName = prompt('请输入文件名', 'flow.json')
+  if (fileName) {
+    const nodes = getNodes
+    const edges = getEdges
+    const sort = await sorting()
+    const flow = {
+      nodes: nodes.value,
+      edges: edges.value,
+      sort: sort,
+    }
+    const flowJson = JSON.stringify(flow, null, 2)
+    const blob = new Blob([flowJson], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = fileName
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
   }
-  console.log(flow)
 }
 
 const connectionMode = ConnectionMode.Strict
