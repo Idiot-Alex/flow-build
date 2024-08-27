@@ -9,6 +9,7 @@ import Maven from '@/components/nodes/Maven.vue'
 import Shell from '@/components/nodes/Shell.vue'
 import Param from '@/components/nodes/Param.vue'
 import Start from '@/components/nodes/Start.vue'
+import ColorSelect from '@/components/nodes/ColorSelect.vue'
 import Animation from '@/components/edges/Animation.vue'
 import { useLayout } from '@/tools/layout'
 import { useNodeProcess } from '@/tools/node-process'
@@ -42,6 +43,7 @@ const nodeTypes = {
   'shell': markRaw(Shell) as NodeComponent,
   'param': markRaw(Param) as NodeComponent,
   'start': markRaw(Start) as NodeComponent,
+  'color-select': markRaw(ColorSelect) as NodeComponent,
 }
 
 const edgeTypes = {
@@ -169,6 +171,9 @@ const dialog = ref({
           </li>
           <li>
             <div class="btn btn-primary" @click="addNode({type: 'maven'})">Maven 节点</div>
+          </li>
+          <li>
+            <div class="btn btn-primary" @click="addNode({type: 'color-select'})">color 节点</div>
           </li>
         </ul>
       </div>

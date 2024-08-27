@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { Handle, Position, useVueFlow } from '@vue-flow/core'
 
 const presets = {
@@ -41,6 +41,14 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  sourcePosition: {
+    type: String,
+    default: Position.Right,
+  },
+  targetPosition: {
+    type: String,
+    default: Position.Left,
+  },
 })
 
 const { updateNodeData, getConnectedEdges } = useVueFlow()
@@ -62,8 +70,8 @@ function onGradient() {
 </script>
 
 <template>
-  <div c-black>Select a color</div>
   <div class="color-select nodrag nopan">
+    <div c-black>Select a color</div>
     <button
       v-for="{ name: colorName, value: color } of colors"
       :key="colorName"
@@ -75,9 +83,9 @@ function onGradient() {
     />
 
     <button class="animated-bg-gradient" title="gradient" type="button" @click="onGradient" />
+    <Handle id="output" type="source" class="handle-output" :position="sourcePosition" />
   </div>
 
-  <Handle id="output" type="source" class="handle-output" :position="Position.Right" />
 </template>
 
 <style lang="css">

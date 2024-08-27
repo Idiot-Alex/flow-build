@@ -4,7 +4,7 @@ import { Background } from '@vue-flow/background'
 import { MiniMap } from '@vue-flow/minimap'
 import { Controls } from '@vue-flow/controls'
 import ColorSelect from '@/components/nodes/ColorSelect.vue'
-import Output from '@/components/nodes/Console.vue'
+import Console from '@/components/nodes/Console.vue'
 
 const nodes = ref([
   { 
@@ -21,10 +21,11 @@ const nodes = ref([
     type: 'color-select',
     data: { color: '#1C1C1C' },
     position: { x: 0, y: 50 },
+    sourcePosition: Position.Right,
   },
   {
     id: '3',
-    type: 'output',
+    type: 'console',
     position: { x: 350, y: 114 },
     targetPosition: Position.Left,
   },
@@ -33,7 +34,7 @@ const edges = ref([
   {
     id: 'e1a-2',
     source: '2',
-    sourceHandle: 'a',
+    sourceHandle: 'output',
     target: '3',
     animated: true,
     style: {
@@ -59,8 +60,8 @@ const edges = ref([
         <ColorSelect :id="props.id" :data="props.data" />
       </template>
 
-      <template #node-output>
-        <Output />
+      <template #node-console="props">
+        <Console :id="props.id" :data="props.data" />
       </template>
     </VueFlow>
   </div>
