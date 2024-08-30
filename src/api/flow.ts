@@ -28,7 +28,7 @@ export const deleteFlow = async (id: number): Promise<Response> => {
 
 // query flow with page
 export const listFlow = async (page: number, pageSize: number, flow: any): Promise<Response> => {
-  const response = await fetchWithTimeout(`/api/flow/query?page=${page}&pageSize=${pageSize}`, {
+  const response = await fetchWithTimeout(`/api/flow/list?page=${page}&size=${pageSize}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

@@ -50,7 +50,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://192.168.3.29:3000', // 目标服务器地址
+        target: 'http://localhost:8080', // 目标服务器地址
         changeOrigin: true, // 改变请求源
       }
     }

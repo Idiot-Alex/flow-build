@@ -4,11 +4,13 @@ import BreadCrumbs from '../components/BreadCrumbs.vue'
 import { listFlow } from '../api/flow'
 import { onMounted, ref } from 'vue'
 
-const flowList = ref([])
+const flowList = ref<Res[]>([])
 
 onMounted(async () => {
-  const res = await listFlow(1, 10, {})
-  console.log(res)
+  const res: any = await listFlow(1, 10, {})
+  if (res.code === 'ok') {
+    flowList.value = res.data
+  }
 })
 </script>
 
@@ -21,33 +23,18 @@ onMounted(async () => {
         <!-- head -->
         <thead>
           <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Job</th>
-            <th>Favorite Color</th>
+            <th>ID</th>
+            <th>名称</th>
+            <th>创建时间</th>
+            <th>修改时间</th>
           </tr>
         </thead>
         <tbody>
-          <!-- row 1 -->
-          <tr>
-            <th>1</th>
-            <td>Cy Ganderton</td>
-            <td>Quality Control Specialist</td>
-            <td>Blue</td>
-          </tr>
-          <!-- row 2 -->
-          <tr>
-            <th>2</th>
-            <td>Hart Hagerty</td>
-            <td>Desktop Support Technician</td>
-            <td>Purple</td>
-          </tr>
-          <!-- row 3 -->
-          <tr>
-            <th>3</th>
-            <td>Brice Swyre</td>
-            <td>Tax Accountant</td>
-            <td>Red</td>
+          <tr v-for="flow in flowList">
+            <th>{{ flow.id }}</th>
+            <td>{{ flow.name }}</td>
+            <td>{{ flow.createdAt }}</td>
+            <td>{{ flow.updatedAt }}</td>
           </tr>
         </tbody>
       </table>
