@@ -1,6 +1,15 @@
 <script setup lang="ts">
 import Header from '../components/Header.vue'
 import BreadCrumbs from '../components/BreadCrumbs.vue'
+import { listFlow } from '../api/flow'
+import { onMounted, ref } from 'vue'
+
+const flowList = ref([])
+
+onMounted(async () => {
+  const res = await listFlow(1, 10, {})
+  console.log(res)
+})
 </script>
 
 <template>
