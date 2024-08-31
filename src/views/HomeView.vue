@@ -3,8 +3,14 @@ import Header from '../components/Header.vue'
 import BreadCrumbs from '../components/BreadCrumbs.vue'
 import { listFlow } from '../api/flow'
 import { onMounted, ref } from 'vue'
+import type { Res } from '@/tools/types';
 
 const flowList = ref<Res[]>([])
+const pagination = ref({
+  page: 1,
+  size: 10,
+  total: 0,
+})
 
 onMounted(async () => {
   const res: any = await listFlow(1, 10, {})
@@ -39,16 +45,19 @@ onMounted(async () => {
         </tbody>
       </table>
     </div>
-    <div class="join">
-      <input
-        class="join-item btn btn-square"
-        type="radio"
-        name="options"
-        aria-label="1"
-        checked="checked" />
-      <input class="join-item btn btn-square" type="radio" name="options" aria-label="2" />
-      <input class="join-item btn btn-square" type="radio" name="options" aria-label="3" />
-      <input class="join-item btn btn-square" type="radio" name="options" aria-label="4" />
+    <div class="flex justify-center gap-2">
+      <div class="join grid grid-cols-2">
+        <button class="join-item btn btn-outline">上一页</button>
+        <button class="join-item btn btn-outline">下一页</button>
+      </div>
+      <div class="join grid grid-cols-2 align-center">
+        <span class="join-item">第 {{ pagination.page }} 页 / 共 {{ pagination.total }} 条</span>
+        <select class="select select-bordered" v-model="pagination.size">
+          <option value="10" selected>10 条</option>
+          <option value="50" >50 条</option>
+          <option value="100" >100 条</option>
+        </select>
+      </div>
     </div>
   </main>
 </template>
