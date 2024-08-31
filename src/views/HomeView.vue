@@ -3,7 +3,10 @@ import Header from '../components/Header.vue'
 import BreadCrumbs from '../components/BreadCrumbs.vue'
 import { listFlow } from '../api/flow'
 import { onMounted, ref } from 'vue'
-import type { Res } from '@/tools/types';
+import type { Res } from '@/tools/types'
+import { useToast } from '@/tools/toast'
+
+const toast = useToast()
 
 const flowList = ref<Res[]>([])
 const pagination = ref({
@@ -12,11 +15,22 @@ const pagination = ref({
   total: 0,
 })
 
-onMounted(async () => {
+const loadFlowList = async () => {
   const res: any = await listFlow(1, 10, {})
   if (res.code === 'ok') {
     flowList.value = res.data
+    pagination.value.page = res.page
+    pagination.value.size = res.size
+    pagination.value.total = res.total
+
+    toast.showSuccess(res.msg)
+  } else {
+    toast.showError(res.msg)
   }
+}
+
+onMounted(async () => {
+  loadFlowList()
 })
 </script>
 
@@ -45,12 +59,12 @@ onMounted(async () => {
         </tbody>
       </table>
     </div>
-    <div class="flex justify-center gap-2">
+    <div class="flex justify-center gap-4">
       <div class="join grid grid-cols-2">
         <button class="join-item btn btn-outline">上一页</button>
         <button class="join-item btn btn-outline">下一页</button>
       </div>
-      <div class="join grid grid-cols-2 align-center">
+      <div class="join grid grid-cols-2 items-center gap-2">
         <span class="join-item">第 {{ pagination.page }} 页 / 共 {{ pagination.total }} 条</span>
         <select class="select select-bordered" v-model="pagination.size">
           <option value="10" selected>10 条</option>
