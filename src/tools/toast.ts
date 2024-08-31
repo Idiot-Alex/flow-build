@@ -29,7 +29,8 @@ export function useToast() {
     if (!toastWrapper) {
       const wrapper = document.createElement('div')
       wrapper.innerHTML = `<div class="toast toast-bottom toast-end" id="flow-build-toast-wrapper"></div>`
-      toastWrapper = document.body.appendChild(wrapper)
+      document.body.appendChild(wrapper)
+      toastWrapper= document.getElementById('flow-build-toast-wrapper')
     }
 
     // init toast id
@@ -38,10 +39,11 @@ export function useToast() {
 
     // init toast div
     const toast = document.createElement('div')
-    toast.innerHTML = `<div id="${toastId}" class="alert ${state}">
+    toast.id = toastId
+    toast.innerHTML = `<div class="alert ${state}">
       <span>${msg}</span>
     </div>`
-    toastWrapper.appendChild(toast)
+    toastWrapper?.appendChild(toast)
 
     // destroy toast
     setTimeout(() => {
