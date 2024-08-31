@@ -24,9 +24,6 @@ const loadFlowList = async () => {
     pagination.value.total = res.total
 
     toast.showSuccess(res.msg)
-    toast.showSuccess(res.msg)
-    toast.showSuccess(res.msg)
-    toast.showSuccess(res.msg)
   } else {
     toast.showError(res.msg)
   }
