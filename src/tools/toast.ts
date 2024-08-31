@@ -24,18 +24,24 @@ export function useToast() {
 
   // init toast
   function initToast(state: string, msg: string, millseconds: number) {
+    // check toast wrapper
+    let toastWrapper = document.getElementById('flow-build-toast-wrapper')
+    if (!toastWrapper) {
+      const wrapper = document.createElement('div')
+      wrapper.innerHTML = `<div class="toast toast-bottom toast-end" id="flow-build-toast-wrapper"></div>`
+      toastWrapper = document.body.appendChild(wrapper)
+    }
+
     // init toast id
     const randomNum = Math.floor(Math.random() * 1000).toString().padStart(3, '0')
     const toastId = new Date().getTime() + randomNum
-    const toast = document.createElement('div')
 
     // init toast div
-    toast.innerHTML = `<div class="toast toast-bottom toast-end" id="${toastId}">
-      <div class="alert ${state}">
-        <span>${msg}</span>
-      </div>
+    const toast = document.createElement('div')
+    toast.innerHTML = `<div id="${toastId}" class="alert ${state}">
+      <span>${msg}</span>
     </div>`
-    document.body.appendChild(toast)
+    toastWrapper.appendChild(toast)
 
     // destroy toast
     setTimeout(() => {

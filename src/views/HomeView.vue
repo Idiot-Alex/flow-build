@@ -16,13 +16,16 @@ const pagination = ref({
 })
 
 const loadFlowList = async () => {
-  const res: any = await listFlow(1, 10, {})
+  const res: any = await listFlow(pagination.value.page, pagination.value.size, {})
   if (res.code === 'ok') {
     flowList.value = res.data
     pagination.value.page = res.page
     pagination.value.size = res.size
     pagination.value.total = res.total
 
+    toast.showSuccess(res.msg)
+    toast.showSuccess(res.msg)
+    toast.showSuccess(res.msg)
     toast.showSuccess(res.msg)
   } else {
     toast.showError(res.msg)
