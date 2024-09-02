@@ -74,13 +74,13 @@ onMounted(async () => {
       </thead>
       <tbody>
         <tr v-for="flow in flowList" :key="flow.id">
-          <th>{{ flow.id }}</th>
+          <th>{{ flow.idStr }}</th>
           <td>{{ flow.name }}</td>
           <td>{{ format(new Date(flow.createdAt), 'yyyy-MM-dd HH:mm:ss') }}</td>
           <td>{{ format(new Date(flow.updatedAt), 'yyyy-MM-dd HH:mm:ss') }}</td>
           <td class="flex gap-2">
             <button class="btn btn-outline btn-sm">编辑</button>
-            <button class="btn btn-outline btn-sm" @click="onDeleteFlow(flow.id)">删除</button>
+            <button class="btn btn-outline btn-sm" @click="onDeleteFlow(flow.idStr)">删除</button>
           </td>
         </tr>
       </tbody>
