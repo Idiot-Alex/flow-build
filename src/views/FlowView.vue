@@ -1,29 +1,39 @@
 <script setup lang="ts">
-import { listFlow } from '../api/flow'
+import { listFlow, deleteFlow } from '../api/flow'
 import { onMounted, ref } from 'vue'
 import type { Res } from '@/tools/types'
 import { useToast } from '@/tools/toast'
+import { format } from 'date-fns'
 
 const toast = useToast()
 
-const flowList = ref<Res[]>([])
+const flowList = ref<any>([])
 const pagination = ref({
   page: 1,
   size: 5,
   pages: 0,
   total: 0,
 })
-
 const loadFlowList = async () => {
-  const res: any = await listFlow(pagination.value.page, pagination.value.size, {})
+  const res = await listFlow(pagination.value.page, pagination.value.size, {}) as unknown as Res
   if (res.code === 'ok') {
     flowList.value = res.data
-    pagination.value.page = res.page
-    pagination.value.size = res.size
-    pagination.value.pages = res.pages
-    pagination.value.total = res.total
+    pagination.value.page = res.page as number
+    pagination.value.size = res.size as number
+    pagination.value.pages = res.pages as number
+    pagination.value.total = res.total as number
 
     toast.showSuccess(res.msg)
+  } else {
+    toast.showError(res.msg)
+  }
+}
+
+const onDeleteFlow = async (id: string) => {
+  const res: any = await deleteFlow(id)
+  if (res.code === 'ok') {
+    toast.showSuccess(res.msg)
+    loadFlowList()
   } else {
     toast.showError(res.msg)
   }
@@ -59,14 +69,19 @@ onMounted(async () => {
           <th>名称</th>
           <th>创建时间</th>
           <th>修改时间</th>
+          <th>操作</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="flow in flowList">
+        <tr v-for="flow in flowList" :key="flow.id">
           <th>{{ flow.id }}</th>
           <td>{{ flow.name }}</td>
-          <td>{{ flow.createdAt }}</td>
-          <td>{{ flow.updatedAt }}</td>
+          <td>{{ format(new Date(flow.createdAt), 'yyyy-MM-dd HH:mm:ss') }}</td>
+          <td>{{ format(new Date(flow.updatedAt), 'yyyy-MM-dd HH:mm:ss') }}</td>
+          <td class="flex gap-2">
+            <button class="btn btn-outline btn-sm">编辑</button>
+            <button class="btn btn-outline btn-sm" @click="onDeleteFlow(flow.id)">删除</button>
+          </td>
         </tr>
       </tbody>
     </table>

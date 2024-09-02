@@ -9,20 +9,14 @@ export const saveFlow = async (flow: any): Promise<Response> => {
     },
     body: JSON.stringify(flow),
   })
-  if (!response.ok) {
-    throw new Error('Failed to save flow')
-  }
   return response.json()
 }
 
 // delete flow by id
-export const deleteFlow = async (id: number): Promise<Response> => {
+export const deleteFlow = async (id: string): Promise<Response> => {
   const response = await fetchWithTimeout(`/api/flow/delete/${id}`, {
     method: 'POST',
   })
-  if (!response.ok) {
-    throw new Error('Failed to delete flow')
-  }
   return response.json()
 }
 
@@ -35,8 +29,5 @@ export const listFlow = async (page: number, pageSize: number, flow: any): Promi
     },
     body: JSON.stringify(flow),
   })
-  if (!response.ok) {
-    throw new Error('Failed to list flow')
-  }
   return response.json()
 }

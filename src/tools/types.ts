@@ -8,5 +8,9 @@ export type NodeDataStatus = 'isSkipped' | 'isFinished' | 'isCancelled' | 'isRun
 export type Res = {
   code: string,
   msg: string,
-  data?: string, 
+  page?: number,
+  size?: number,
+  pages?: number,
+  total?: number,
+  data?: any,
 }

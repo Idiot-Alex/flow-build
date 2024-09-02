@@ -1,3 +1,6 @@
+import { useToast } from '@/tools/toast'
+
+const toast = useToast()
 
 export function fetchWithTimeout(url: string, options = {}, timeout = 5000): Promise<Response> {
   const controller = new AbortController()
@@ -10,6 +13,8 @@ export function fetchWithTimeout(url: string, options = {}, timeout = 5000): Pro
   }).catch(error => {
     if (error.name === 'AbortError') {
       throw new Error('Request timed out')
+    } else {
+      toast.showError(error.statusText)
     }
     throw error
   })
