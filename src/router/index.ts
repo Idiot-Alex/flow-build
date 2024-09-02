@@ -7,7 +7,15 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      redirect: '/flow',
+      children: [
+        {
+          path: '/flow',
+          name: 'flow',
+          component: () => import('../views/FlowView.vue')
+        }
+      ]
     },
     {
       path: '/about',
@@ -18,8 +26,8 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     },
     {
-      path: '/flow',
-      name: 'flow',
+      path: '/flow-test',
+      name: 'flow-test',
       component: () => import('../views/Flow.vue')
     }
   ]
