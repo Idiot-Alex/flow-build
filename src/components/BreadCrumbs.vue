@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { onMounted, ref,watch } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useBreadcrumbStore } from '@/stores/breadcrumb'
+import type { Breadcrumb } from '@/tools/types';
 
 const breadcrumbStore = useBreadcrumbStore()
 const router = useRouter()
-const breadcrumbPath = ref([])
+const breadcrumbList = ref<Breadcrumb[]>([])
 
 onMounted(() => {
-  console.log(breadcrumbStore.breadcrumbList)
+  breadcrumbList.value = breadcrumbStore.breadcrumbList
 })
 
 </script>
@@ -16,9 +17,9 @@ onMounted(() => {
 <template>
   <div class="breadcrumbs text-sm pl-4">
     <ul>
-      <li><a>Home</a></li>
-      <li><a>Documents</a></li>
-      <li>Add Document</li>
+      <li v-for="ele in breadcrumbList">
+        <a :href="ele.path">{{ ele.title }}</a>
+      </li>
     </ul>
   </div>
 </template>

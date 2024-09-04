@@ -3,8 +3,6 @@ import HomeView from '../views/HomeView.vue'
 import type { Breadcrumb } from '@/tools/types'
 import { useBreadcrumbStore } from '@/stores/breadcrumb'
 
-const breadcrumbStore = useBreadcrumbStore()
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -46,12 +44,9 @@ const router = createRouter({
   ]
 })
 
-// 面包屑路径记录
-let breadcrumbList: Breadcrumb[] = []
-
 router.beforeEach((to, from, next) => {
   // 清空面包屑路径
-  breadcrumbList = []
+  let breadcrumbList: Breadcrumb[] = []
   // 构建面包屑路径
   const buildBreadcrumbPath = (route: any) => {
     if (route.meta && route.meta.title) {
@@ -63,8 +58,11 @@ router.beforeEach((to, from, next) => {
   }
 
   buildBreadcrumbPath(to)
-  console.log(breadcrumbList)
+
+  // use store
+  const breadcrumbStore = useBreadcrumbStore()
   breadcrumbStore.setBreadcrumbList(breadcrumbList)
+
   next()
 })
 
