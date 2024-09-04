@@ -35,7 +35,7 @@ export function useToast() {
 
     // init toast id
     const randomNum = Math.floor(Math.random() * 1000).toString().padStart(3, '0')
-    const toastId = new Date().getTime() + randomNum
+    const toastId = 'toast-' + new Date().getTime() + randomNum
 
     // init toast div
     const toast = document.createElement('div')

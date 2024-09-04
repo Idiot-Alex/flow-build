@@ -20,3 +20,9 @@ export type Breadcrumb = {
   path: string,
 }
 
+export type Dialog = {
+  title: string,
+  message: string,
+  closeBtn: string,
+}
+

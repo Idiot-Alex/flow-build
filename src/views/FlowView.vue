@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { listFlow, deleteFlow } from '../api/flow'
 import { onMounted, ref } from 'vue'
-import type { Res } from '@/tools/types'
+import type { Dialog, Res } from '@/tools/types'
 import { useToast } from '@/tools/toast'
 import { format } from 'date-fns'
+import { useDialog } from '@/tools/dialog'
 
 const toast = useToast()
+const dialog = useDialog()
 
 const flowList = ref<any>([])
 const pagination = ref({
@@ -27,6 +29,15 @@ const loadFlowList = async () => {
   } else {
     toast.showError(res.msg)
   }
+}
+
+const onEdit = () => {
+  const dl: Dialog = {
+    title: '提示',
+    message: '测试信息',
+    closeBtn: '关闭'
+  }
+  dialog.initDialog(dl)
 }
 
 const onDeleteFlow = async (id: string) => {
@@ -79,7 +90,7 @@ onMounted(async () => {
           <td>{{ format(new Date(flow.createdAt), 'yyyy-MM-dd HH:mm:ss') }}</td>
           <td>{{ format(new Date(flow.updatedAt), 'yyyy-MM-dd HH:mm:ss') }}</td>
           <td class="flex gap-2">
-            <button class="btn btn-outline btn-sm">编辑</button>
+            <button class="btn btn-outline btn-sm" @click="onEdit">编辑</button>
             <button class="btn btn-outline btn-sm" @click="onDeleteFlow(flow.idStr)">删除</button>
           </td>
         </tr>
