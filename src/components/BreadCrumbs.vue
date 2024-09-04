@@ -1,4 +1,15 @@
 <script setup lang="ts">
+import { onMounted, ref,watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useBreadcrumbStore } from '@/stores/breadcrumb'
+
+const breadcrumbStore = useBreadcrumbStore()
+const router = useRouter()
+const breadcrumbPath = ref([])
+
+onMounted(() => {
+  console.log(breadcrumbStore.breadcrumbList)
+})
 
 </script>
 

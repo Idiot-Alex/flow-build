@@ -14,3 +14,9 @@ export type Res = {
   total?: number,
   data?: any,
 }
+
+export type Breadcrumb = {
+  title: string,
+  path: string,
+}
+
