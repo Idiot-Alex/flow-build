@@ -9,6 +9,7 @@ const toast = useToast()
 
 <template>
   <Header />
+  <div class="divider m-0 h-auto"></div>
   <BreadCrumbs />
   <main>
     <RouterView />

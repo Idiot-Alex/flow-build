@@ -60,7 +60,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="overflow-x-auto">
+  <div class="card bg-base-100 shadow-xl overflow-x-auto px-4 py-2">
     <table class="table table-zebra">
       <!-- head -->
       <thead>
@@ -85,20 +85,20 @@ onMounted(async () => {
         </tr>
       </tbody>
     </table>
-  </div>
-  <div class="flex justify-center gap-4">
-    <div class="join grid grid-cols-2">
-      <button class="join-item btn btn-outline" :disabled="pagination.page <= 1" @click="prevPage">上一页</button>
-      <button class="join-item btn btn-outline" :disabled="pagination.page >= pagination.pages" @click="nextPage">下一页</button>
-    </div>
-    <div class="join grid grid-cols-2 items-center gap-2">
-      <span class="join-item">第 {{ pagination.page }} / {{ pagination.pages }} 页 / 共 {{ pagination.total }} 条</span>
-      <select class="select select-bordered" v-model="pagination.size" @change="changePageSize">
-        <option value="5" selected>5 条</option>
-        <option value="10">10 条</option>
-        <option value="50" >50 条</option>
-        <option value="100" >100 条</option>
-      </select>
+    <div class="flex justify-center gap-4 mt-2">
+      <div class="join grid grid-cols-2">
+        <button class="join-item btn btn-outline" :disabled="pagination.page <= 1" @click="prevPage">上一页</button>
+        <button class="join-item btn btn-outline" :disabled="pagination.page >= pagination.pages" @click="nextPage">下一页</button>
+      </div>
+      <div class="join grid grid-cols-2 items-center gap-2">
+        <span class="join-item">第 {{ pagination.page }} / {{ pagination.pages }} 页 / 共 {{ pagination.total }} 条</span>
+        <select class="select select-bordered" v-model="pagination.size" @change="changePageSize">
+          <option value="5" selected>5 条</option>
+          <option value="10">10 条</option>
+          <option value="50" >50 条</option>
+          <option value="100" >100 条</option>
+        </select>
+      </div>
     </div>
   </div>
 </template>
