@@ -141,8 +141,8 @@ const connectionMode = ConnectionMode.Strict
 </script>
 
 <template>
-  <main data-theme="dark" class="theme-dark bg-line flex" z-1 flex w-100vw h-100vh>
-    <div :class="{'drawer-open': drawerOpen}" class="w-auto z-2 nodrag">
+  <main data-theme="dark" class="theme-dark bg-line flex" z-100 flex w-200 h-200>
+    <div :class="{'drawer-open': drawerOpen}" class="drawer w-auto nodrag">
       <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
       <div class="drawer-content flex flex-col items-center justify-center">
         <!-- Page content here -->
