@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useBreadcrumbStore } from '@/stores/breadcrumb'
-import type { Breadcrumb } from '@/tools/types';
+import type { Breadcrumb } from '@/tools/types'
 
 const breadcrumbStore = useBreadcrumbStore()
 const router = useRouter()
@@ -12,6 +12,10 @@ const go = (path: string) => {
   console.log(path)
   router.push({ path })
 }
+
+watch(() => router.currentRoute.value, () => {
+  breadcrumbList.value = breadcrumbStore.breadcrumbList
+})
 
 onMounted(() => {
   breadcrumbList.value = breadcrumbStore.breadcrumbList

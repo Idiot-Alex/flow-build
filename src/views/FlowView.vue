@@ -5,9 +5,11 @@ import type { Dialog, Res } from '@/tools/types'
 import { useToast } from '@/tools/toast'
 import { format } from 'date-fns'
 import { useDialog } from '@/tools/dialog'
+import { useRouter } from 'vue-router'
 
 const toast = useToast()
 const dialog = useDialog()
+const router = useRouter()
 
 const flowList = ref<any>([])
 const pagination = ref({
@@ -31,17 +33,8 @@ const loadFlowList = async () => {
   }
 }
 
-const onEdit = () => {
-  const dl: Dialog = {
-    title: '提示',
-    message: '测试信息',
-    closeBtn: '关闭',
-    confirmBtn: '确认',
-    confirmFunc: () => {
-      alert('id')
-    }
-  }
-  dialog.showDialog(dl)
+const onEditFlow = (flow: any) => {
+  router.push({path: '/flow/test'})
 }
 
 const onDeleteFlow = async (id: string) => {
@@ -103,7 +96,7 @@ onMounted(async () => {
           <td>{{ format(new Date(flow.createdAt), 'yyyy-MM-dd HH:mm:ss') }}</td>
           <td>{{ format(new Date(flow.updatedAt), 'yyyy-MM-dd HH:mm:ss') }}</td>
           <td class="flex gap-2">
-            <button class="btn btn-outline btn-sm" @click="onEdit">编辑</button>
+            <button class="btn btn-outline btn-sm" @click="onEditFlow(flow)">编辑</button>
             <button class="btn btn-outline btn-sm" @click="onDeleteFlow(flow.idStr)">删除</button>
           </td>
         </tr>

@@ -21,8 +21,27 @@ const router = createRouter({
           meta: {
             title: '流程管理',
           },
-          component: () => import('../views/FlowView.vue')
-        }
+          redirect: '/flow/list',
+          children: [
+            {
+              path: '/flow/list',
+              name: 'flow-list',
+              meta: {
+                title: '流程列表',
+              },
+              component: () => import('../views/FlowView.vue')
+            },
+            {
+              path: '/flow/test',
+              name: 'flow-test',
+              meta: {
+                title: '编辑流程',
+              },
+              component: () => import('../views/Flow.vue')
+            }
+          ],
+        },
+        
       ]
     },
     {
@@ -36,11 +55,6 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue')
     },
-    {
-      path: '/flow-test',
-      name: 'flow-test',
-      component: () => import('../views/Flow.vue')
-    }
   ]
 })
 
@@ -49,11 +63,12 @@ router.beforeEach((to, from, next) => {
   let breadcrumbList: Breadcrumb[] = []
   // 构建面包屑路径
   const buildBreadcrumbPath = (route: any) => {
-    if (route.meta && route.meta.title) {
-      breadcrumbList.unshift({title: route.meta.title, path: route.path});
-    }
-    if (route.matched && route.matched.length > 1) {
-      buildBreadcrumbPath(route.matched[route.matched.length - 2]);
+    if (route.matched && route.matched.length > 0) {
+      route.matched.forEach((element: any) => {
+        if (route.meta && route.meta.title) {
+          breadcrumbList.push({title: element.meta.title, path: element.path})
+        }
+      })
     }
   }
 
