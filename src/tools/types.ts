@@ -24,5 +24,7 @@ export type Dialog = {
   title: string,
   message: string,
   closeBtn: string,
+  confirmBtn?: string,
+  confirmFunc?: Function
 }
 

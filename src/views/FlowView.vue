@@ -35,19 +35,32 @@ const onEdit = () => {
   const dl: Dialog = {
     title: '提示',
     message: '测试信息',
-    closeBtn: '关闭'
+    closeBtn: '关闭',
+    confirmBtn: '确认',
+    confirmFunc: () => {
+      alert('id')
+    }
   }
-  dialog.initDialog(dl)
+  dialog.showDialog(dl)
 }
 
 const onDeleteFlow = async (id: string) => {
-  const res: any = await deleteFlow(id)
-  if (res.code === 'ok') {
-    toast.showSuccess(res.msg)
-    loadFlowList()
-  } else {
-    toast.showError(res.msg)
+  const dl: Dialog = {
+    title: '注意',
+    message: '该操作会删除记录哦...',
+    closeBtn: '取消',
+    confirmBtn: '确认',
+    confirmFunc: async () => {
+      const res: any = await deleteFlow(id)
+      if (res.code === 'ok') {
+        toast.showSuccess(res.msg)
+        loadFlowList()
+      } else {
+        toast.showError(res.msg)
+      }
+    }
   }
+  dialog.showDialog(dl)
 }
 
 const prevPage = () => {
