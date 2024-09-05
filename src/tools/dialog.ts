@@ -14,16 +14,21 @@ export const useDialog = () => {
       <h3 class="text-lg font-bold">${dl.title}</h3>
       <p class="py-4">${dl.message}</p>
       <div class="modal-action">
-        <form method="dialog">
-          <!-- if there is a button in form, it will close the modal -->
-          ${typeof dl.confirmBtn === 'undefined' ? '' : `<button class="btn btn-primary" id="confirmBtn-${dialogId}">${dl.confirmBtn}</button>`}
-          <button class="btn" onClick="document.getElementById('${dialogId}')?.remove()">${dl.closeBtn}</button>
-        </form>
+        ${typeof dl.confirmBtn === 'undefined' ? '' : `<button class="btn btn-primary" id="confirmBtn-${dialogId}">${dl.confirmBtn}</button>`}
+        <button class="btn" id="closeBtn-${dialogId}">${dl.closeBtn}</button>
       </div>
     </div>`
     document.body.appendChild(dialog)
 
-    // 动态绑定 confirmBtn 的 click 事件
+    // bind closeBtn click event
+    const closeBtn = dialog.querySelector(`#closeBtn-${dialogId}`) as HTMLElement | null
+    if (closeBtn) {
+      closeBtn.addEventListener('click', async (event) => {
+        closeDialog(dialogId)
+      })
+    }
+
+    // bind confirmBtn click event
     if (dl.confirmBtn) {
       const confirmBtn = dialog.querySelector(`#confirmBtn-${dialogId}`) as HTMLElement | null
       if (confirmBtn) {
