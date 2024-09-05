@@ -13,10 +13,12 @@ import ColorSelect from '@/components/nodes/ColorSelect.vue'
 import Animation from '@/components/edges/Animation.vue'
 import { useLayout } from '@/tools/layout'
 import { useNodeProcess } from '@/tools/node-process'
-
+import { useDialog } from '@/tools/dialog'
 import { initialEdges, initialNodes } from '@/tools/test-elements.ts'
 import { markRaw, nextTick, onMounted, ref, toValue } from 'vue'
+import type { Dialog } from '@/tools/types'
 
+const dialog = useDialog()
 const nodes = ref<GraphNode[]>([])
 const edges = ref<Edge[]>([])
 
@@ -82,13 +84,12 @@ const addNode = async (data: ElementData) => {
   if (data.type === 'start') {
     const nodes = getNodes
     if (nodes.value.some(node => node.type === 'start')) {
-      dialog.value = {
+      const dl: Dialog = {
         title: '提示',
         message: '该节点同时只能存在一个',
         closeBtn: '我知道了',
       }
-      // @ts-ignore
-      document.getElementById('dialog').showModal()
+      dialog.showDialog(dl)
       return
     }
   }
@@ -137,11 +138,6 @@ const exportFlow = async () => {
 
 const connectionMode = ConnectionMode.Strict
 
-const dialog = ref({
-  title: '提示',
-  message: '提示信息',
-  closeBtn: '关闭',
-})
 </script>
 
 <template>
@@ -201,19 +197,6 @@ const dialog = ref({
         />
       </template>
     </VueFlow>
-    <!-- dialog -->
-    <dialog id="dialog" class="modal modal-bottom sm:modal-middle">
-      <div class="modal-box">
-        <h3 class="text-lg font-bold">{{ dialog.title }}</h3>
-        <p class="py-4">{{ dialog.message }}</p>
-        <div class="modal-action">
-          <form method="dialog">
-            <!-- if there is a button in form, it will close the modal -->
-            <button class="btn">{{ dialog.closeBtn }}</button>
-          </form>
-        </div>
-      </div>
-    </dialog>
   </main>
 </template>
 
