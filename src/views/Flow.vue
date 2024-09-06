@@ -4,12 +4,6 @@ import { Panel, VueFlow, type ElementData, ConnectionMode, useVueFlow, type Node
 import { Background } from '@vue-flow/background'
 import { MiniMap } from '@vue-flow/minimap'
 import { Controls } from '@vue-flow/controls'
-import Console from '@/components/nodes/Console.vue'
-import Maven from '@/components/nodes/Maven.vue'
-import Shell from '@/components/nodes/Shell.vue'
-import Param from '@/components/nodes/Param.vue'
-import Start from '@/components/nodes/Start.vue'
-import ColorSelect from '@/components/nodes/ColorSelect.vue'
 import Animation from '@/components/edges/Animation.vue'
 import { useLayout } from '@/tools/layout'
 import { useNodeProcess } from '@/tools/node-process'
@@ -17,7 +11,9 @@ import { useDialog } from '@/tools/dialog'
 import { initialEdges, initialNodes } from '@/tools/test-elements.ts'
 import { markRaw, nextTick, onMounted, ref, toValue } from 'vue'
 import type { Dialog } from '@/tools/types'
+import { useNodeEdge } from '@/tools/node-edge'
 
+const nodeEdge = useNodeEdge()
 const dialog = useDialog()
 const nodes = ref<GraphNode[]>([])
 const edges = ref<Edge[]>([])
@@ -39,19 +35,9 @@ const layoutGraph = async (direction: string) => {
   await nextTick(() => fitView())
 }
 
-const nodeTypes = {
-  'console': markRaw(Console) as NodeComponent,
-  'maven': markRaw(Maven) as NodeComponent,
-  'shell': markRaw(Shell) as NodeComponent,
-  'param': markRaw(Param) as NodeComponent,
-  'start': markRaw(Start) as NodeComponent,
-  'color-select': markRaw(ColorSelect) as NodeComponent,
-}
-
-const edgeTypes = {
-  'animation': markRaw(Animation) as EdgeComponent,
-}
-
+const nodeTypes = nodeEdge.nodeTypes
+const nodeTypeNameMap = nodeEdge.nodeTypeNameMap
+const edgeTypes = nodeEdge.edgeTypes
 
 onConnect((connection: Connection) => {
   const newConnection = {
@@ -145,24 +131,8 @@ const connectionMode = ConnectionMode.Strict
     <div :style="[drawerOpen ? 'display: block': 'display: none']">
       <h2 class="text-xl font-bold text-center mt-2">节点列表</h2>
       <ul class="menu bg-base-200 text-base-content w-40 p-4 gap-10px">
-        <!-- Sidebar content here -->
-        <li>
-          <div class="btn btn-primary" @click="addNode({type: 'start'})">开始节点</div>
-        </li>
-        <li>
-          <div class="btn btn-primary" @click="addNode({type: 'param'})">参数节点</div>
-        </li>
-        <li>
-          <div class="btn btn-primary" @click="addNode({type: 'console'})">输出节点</div>
-        </li>
-        <li>
-          <div class="btn btn-primary" @click="addNode({type: 'shell'})">Shell 节点</div>
-        </li>
-        <li>
-          <div class="btn btn-primary" @click="addNode({type: 'maven'})">Maven 节点</div>
-        </li>
-        <li>
-          <div class="btn btn-primary" @click="addNode({type: 'color-select'})">color 节点</div>
+        <li v-for="nodeKey in Object.keys(nodeTypes)" :key="nodeKey">
+          <div class="btn btn-primary" @click="addNode({type: nodeKey})">{{nodeTypeNameMap[nodeKey]}}</div>
         </li>
       </ul>
     </div>
@@ -201,4 +171,4 @@ const connectionMode = ConnectionMode.Strict
 @import '@vue-flow/minimap/dist/style.css';
 /* import default controls styles */
 @import '@vue-flow/controls/dist/style.css';
-</style>
+</style>@/tools/node-edge
