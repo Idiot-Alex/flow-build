@@ -141,38 +141,30 @@ const connectionMode = ConnectionMode.Strict
 </script>
 
 <template>
-  <main data-theme="dark" class="theme-dark bg-line flex" z-100 flex w-200 h-200>
-    <div :class="{'drawer-open': drawerOpen}" class="drawer w-auto nodrag">
-      <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-      <div class="drawer-content flex flex-col items-center justify-center">
-        <!-- Page content here -->
-        <!-- <label for="my-drawer-2" pos-absolute top-10px class="btn btn-primary drawer-button">Open drawer</label> -->
-      </div>
-      <div class="drawer-side">
-        <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
-        <h2 class="text-xl font-bold text-center mt-2">节点列表</h2>
-        <ul class="menu bg-base-200 text-base-content min-h-full w-40 p-4 gap-10px">
-          <!-- Sidebar content here -->
-          <li>
-            <div class="btn btn-primary" @click="addNode({type: 'start'})">开始节点</div>
-          </li>
-          <li>
-            <div class="btn btn-primary" @click="addNode({type: 'param'})">参数节点</div>
-          </li>
-          <li>
-            <div class="btn btn-primary" @click="addNode({type: 'console'})">输出节点</div>
-          </li>
-          <li>
-            <div class="btn btn-primary" @click="addNode({type: 'shell'})">Shell 节点</div>
-          </li>
-          <li>
-            <div class="btn btn-primary" @click="addNode({type: 'maven'})">Maven 节点</div>
-          </li>
-          <li>
-            <div class="btn btn-primary" @click="addNode({type: 'color-select'})">color 节点</div>
-          </li>
-        </ul>
-      </div>
+  <main data-theme="dark" class="theme-dark bg-line flex w-100% h-100%" z-100 flex>
+    <div :style="[drawerOpen ? 'display: block': 'display: none']">
+      <h2 class="text-xl font-bold text-center mt-2">节点列表</h2>
+      <ul class="menu bg-base-200 text-base-content w-40 p-4 gap-10px">
+        <!-- Sidebar content here -->
+        <li>
+          <div class="btn btn-primary" @click="addNode({type: 'start'})">开始节点</div>
+        </li>
+        <li>
+          <div class="btn btn-primary" @click="addNode({type: 'param'})">参数节点</div>
+        </li>
+        <li>
+          <div class="btn btn-primary" @click="addNode({type: 'console'})">输出节点</div>
+        </li>
+        <li>
+          <div class="btn btn-primary" @click="addNode({type: 'shell'})">Shell 节点</div>
+        </li>
+        <li>
+          <div class="btn btn-primary" @click="addNode({type: 'maven'})">Maven 节点</div>
+        </li>
+        <li>
+          <div class="btn btn-primary" @click="addNode({type: 'color-select'})">color 节点</div>
+        </li>
+      </ul>
     </div>
     <VueFlow flex-1 :nodes="nodes" :edges="edges" :node-types="nodeTypes" :edge-types="edgeTypes" :connection-mode="connectionMode"  @nodes-initialized="layoutGraph('LR')">
       <Background />

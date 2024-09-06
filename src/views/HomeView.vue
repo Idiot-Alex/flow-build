@@ -11,7 +11,14 @@ const toast = useToast()
   <Header />
   <div class="divider m-0 h-auto"></div>
   <BreadCrumbs />
-  <main>
+  <main class="main-wrapper">
     <RouterView />
   </main>
 </template>
+
+<style scoped>
+.main-wrapper {
+  width: 100%;
+  height: calc(100vh - 120px);
+}
+</style>
