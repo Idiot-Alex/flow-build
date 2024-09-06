@@ -9,7 +9,7 @@ import { useLayout } from '@/tools/layout'
 import { useNodeProcess } from '@/tools/node-process'
 import { useDialog } from '@/tools/dialog'
 import { initialEdges, initialNodes } from '@/tools/test-elements.ts'
-import { markRaw, nextTick, onMounted, ref, toValue } from 'vue'
+import { nextTick, onMounted, ref, toValue } from 'vue'
 import type { Dialog } from '@/tools/types'
 import { useNodeEdge } from '@/tools/node-edge'
 
@@ -36,7 +36,7 @@ const layoutGraph = async (direction: string) => {
 }
 
 const nodeTypes = nodeEdge.nodeTypes
-const nodeTypeNameMap = nodeEdge.nodeTypeNameMap
+const nodeTypeNameMap: any = nodeEdge.nodeTypeNameMap
 const edgeTypes = nodeEdge.edgeTypes
 
 onConnect((connection: Connection) => {
@@ -131,8 +131,8 @@ const connectionMode = ConnectionMode.Strict
     <div :style="[drawerOpen ? 'display: block': 'display: none']">
       <h2 class="text-xl font-bold text-center mt-2">节点列表</h2>
       <ul class="menu bg-base-200 text-base-content w-40 p-4 gap-10px">
-        <li v-for="nodeKey in Object.keys(nodeTypes)" :key="nodeKey">
-          <div class="btn btn-primary" @click="addNode({type: nodeKey})">{{nodeTypeNameMap[nodeKey]}}</div>
+        <li v-for="(nodeKey, index) in Object.keys(nodeTypes)" :key="index">
+          <div class="btn btn-primary" @click="addNode({type: nodeKey})">{{ nodeTypeNameMap[nodeKey] }}</div>
         </li>
       </ul>
     </div>
