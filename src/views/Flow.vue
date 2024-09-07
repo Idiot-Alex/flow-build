@@ -128,14 +128,16 @@ const connectionMode = ConnectionMode.Strict
 
 <template>
   <main data-theme="dark" class="theme-dark bg-line flex w-100% h-100%" z-100 flex>
-    <div :style="[drawerOpen ? 'display: block': 'display: none']">
-      <h2 class="text-xl font-bold text-center mt-2">节点列表</h2>
-      <ul class="menu bg-base-200 text-base-content w-40 p-4 gap-10px">
-        <li v-for="(nodeKey, index) in Object.keys(nodeTypes)" :key="index">
-          <div class="btn btn-primary" @click="addNode({type: nodeKey})">{{ nodeTypeNameMap[nodeKey] }}</div>
-        </li>
-      </ul>
-    </div>
+    <transition name="slide-fade">
+      <div v-if="drawerOpen" :style="[drawerOpen ? 'display: block': 'display: none']">
+        <h2 class="text-xl font-bold text-center mt-2">节点列表</h2>
+        <ul class="menu bg-base-200 text-base-content w-40 p-4 gap-10px">
+          <li v-for="(nodeKey, index) in Object.keys(nodeTypes)" :key="index">
+            <div class="btn btn-primary" @click="addNode({type: nodeKey})">{{ nodeTypeNameMap[nodeKey] }}</div>
+          </li>
+        </ul>
+      </div>
+    </transition>
     <VueFlow flex-1 :nodes="nodes" :edges="edges" :node-types="nodeTypes" :edge-types="edgeTypes" :connection-mode="connectionMode"  @nodes-initialized="layoutGraph('LR')">
       <Background />
       <MiniMap />
@@ -171,4 +173,17 @@ const connectionMode = ConnectionMode.Strict
 @import '@vue-flow/minimap/dist/style.css';
 /* import default controls styles */
 @import '@vue-flow/controls/dist/style.css';
-</style>@/tools/node-edge
+
+/* 添加淡入淡出动画 */
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+.slide-fade-leave-active {
+  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+</style>

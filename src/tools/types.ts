@@ -2,8 +2,8 @@ export type NodeState = {
   emoji: string,
   tip: string,
 }
-
-export type NodeDataStatus = 'isSkipped' | 'isFinished' | 'isCancelled' | 'isRunning' | 'hasError'
+// 添加 ｜(string & {}) 会触发可选值的提示
+export type NodeDataStatus = 'isSkipped' | 'isFinished' | 'isCancelled' | 'isRunning' | 'hasError' | (string & {})
 
 export type Res = {
   code: string,
