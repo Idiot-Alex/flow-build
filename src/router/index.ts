@@ -32,12 +32,12 @@ const router = createRouter({
               component: () => import('../views/FlowView.vue')
             },
             {
-              path: '/flow/test',
-              name: 'flow-test',
+              path: '/flow/edit/:id?',
+              name: 'flow-edit',
               meta: {
-                title: '编辑流程',
+                title: '流程编辑',
               },
-              component: () => import('../views/Flow.vue')
+              component: () => import('../views/FlowEdit.vue')
             }
           ],
         },

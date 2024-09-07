@@ -12,7 +12,12 @@ import { initialEdges, initialNodes } from '@/tools/test-elements.ts'
 import { nextTick, onMounted, ref, toValue } from 'vue'
 import type { Dialog } from '@/tools/types'
 import { useNodeEdge } from '@/tools/node-edge'
+import { getFlowById, saveFlow } from '@/api/flow'
+import { useToast } from '@/tools/toast'
+import { useRoute } from 'vue-router'
 
+const route = useRoute()
+const toast = useToast()
 const nodeEdge = useNodeEdge()
 const dialog = useDialog()
 const nodes = ref<GraphNode[]>([])
@@ -23,9 +28,31 @@ const { findNode, addNodes, onConnect, onNodesChange, applyNodeChanges, addEdges
 const { graph, layout, previousDirection } = useLayout()
 const { run, stop, reset, isRunning, sorting } = useNodeProcess(graph, cancelOnError.value)
 
+const flowId = route.params.id as string
+const tempFlow = ref<any>({})
+
+const loadFlow = async () => {
+  if (flowId) {
+    const res = await getFlowById(flowId)
+    if (res.code === 'ok') {
+      tempFlow.value = res.data
+      const jsonData = JSON.parse(res.data.jsonData)
+      console.log(jsonData)
+      if (jsonData) {
+        nodes.value = jsonData.nodes
+        edges.value = jsonData.edges
+      }
+    } else {
+      toast.showError(res.msg)
+    }
+  }
+}
+
+
 onMounted(() => {
-  nodes.value = toValue(getNodes)
-  edges.value = toValue(getEdges)
+  loadFlow()
+  // nodes.value = toValue(getNodes)
+  // edges.value = toValue(getEdges)
 })
 
 const layoutGraph = async (direction: string) => {
@@ -122,6 +149,28 @@ const exportFlow = async () => {
   }
 }
 
+const submitFlow = async () => {
+  const nodes = getNodes
+  const edges = getEdges
+  const sort = await sorting()
+  const flow = {
+    nodes: nodes.value,
+    edges: edges.value,
+    sort: sort,
+  }
+  const flowJson = JSON.stringify(flow, null, 2)
+  tempFlow.value = {
+    ...tempFlow.value,
+    jsonData: flowJson,
+  }
+  const res = await saveFlow(tempFlow.value)
+  if (res.code === 'ok') {
+    toast.showSuccess(res.msg)
+  } else {
+    toast.showError(res.msg)
+  }
+}
+
 const connectionMode = ConnectionMode.Strict
 
 </script>
@@ -145,6 +194,7 @@ const connectionMode = ConnectionMode.Strict
       <Panel class="flex gap-2" position="top-right">
         <label class="btn btn-outline btn-accent" @click="execFlow">测试执行</label>
         <label class="btn btn-outline btn-primary" @click="exportFlow">导出流程</label>
+        <label class="btn btn-outline btn-primary" @click="submitFlow">保存流程</label>
         <label for="my-drawer-2" class="btn btn-outline btn-secondary drawer-button" @click="toggleDrawer">{{ drawerOpen ? '关闭' : '打开' }}侧边栏</label>
       </Panel>
       <template #edge-animation="edgeProps">

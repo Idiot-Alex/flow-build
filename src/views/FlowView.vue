@@ -19,7 +19,7 @@ const pagination = ref({
   total: 0,
 })
 const loadFlowList = async () => {
-  const res = await listFlow(pagination.value.page, pagination.value.size, {}) as unknown as Res
+  const res = await listFlow(pagination.value.page, pagination.value.size, {})
   if (res.code === 'ok') {
     flowList.value = res.data
     pagination.value.page = res.page as number
@@ -34,7 +34,7 @@ const loadFlowList = async () => {
 }
 
 const onEditFlow = (flow: any) => {
-  router.push({path: '/flow/test'})
+  router.push({path: `/flow/edit/${flow.idStr}`})
 }
 
 const onDeleteFlow = async (id: string) => {
