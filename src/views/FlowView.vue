@@ -18,8 +18,9 @@ const pagination = ref({
   pages: 0,
   total: 0,
 })
+const tempFlow: any = ref({})
 const loadFlowList = async () => {
-  const res = await listFlow(pagination.value.page, pagination.value.size, {})
+  const res = await listFlow(pagination.value.page, pagination.value.size, tempFlow.value)
   if (res.code === 'ok') {
     flowList.value = res.data
     pagination.value.page = res.page as number
@@ -78,6 +79,12 @@ onMounted(async () => {
 
 <template>
   <div class="card bg-base-100 shadow-xl overflow-x-auto px-4 py-2">
+    <div class="menu menu-horizontal bg-base-200 rounded-box gap-2">
+      <input v-model="tempFlow.name" type="text" placeholder="请输入流程名称" class="input input-bordered" />
+      <button class="btn btn-outline" @click="loadFlowList">搜索</button>
+      <button class="btn btn-outline">新建</button>
+    </div>
+    <div class="divider m-0 h-auto"></div>
     <table class="table table-zebra">
       <!-- head -->
       <thead>

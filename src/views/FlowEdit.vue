@@ -23,6 +23,8 @@ const dialog = useDialog()
 const nodes = ref<GraphNode[]>([])
 const edges = ref<Edge[]>([])
 
+const connectionMode = ConnectionMode.Strict
+
 const cancelOnError = ref(true)
 const { findNode, addNodes, onConnect, onNodesChange, applyNodeChanges, addEdges, getNodes, getEdges, fitView, updateNodeData } = useVueFlow()
 const { graph, layout, previousDirection } = useLayout()
@@ -170,8 +172,6 @@ const submitFlow = async () => {
     toast.showError(res.msg)
   }
 }
-
-const connectionMode = ConnectionMode.Strict
 
 </script>
 
