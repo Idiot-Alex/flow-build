@@ -9,7 +9,6 @@ const router = useRouter()
 const breadcrumbList = ref<Breadcrumb[]>([])
 
 const go = (path: string) => {
-  console.log(path)
   router.push({ path })
 }
 

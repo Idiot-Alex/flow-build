@@ -85,6 +85,19 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* 添加淡入淡出动画 */
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+.slide-fade-leave-active {
+  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
 /* vue-flow default css */
 .vue-flow__handle.handle-input {
   --tw-bg-opacity: 1;

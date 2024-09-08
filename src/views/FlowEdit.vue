@@ -37,10 +37,9 @@ const loadFlow = async () => {
     if (res.code === 'ok') {
       tempFlow.value = res.data
       const jsonData = JSON.parse(res.data.jsonData)
-      console.log(jsonData)
       if (jsonData) {
-        nodes.value = jsonData.nodes
-        edges.value = jsonData.edges
+        nodes.value = jsonData.nodes || []
+        edges.value = jsonData.edges || []
       }
     } else {
       toast.showError(res.msg)
@@ -161,6 +160,7 @@ const submitFlow = async () => {
   const flowJson = JSON.stringify(flow, null, 2)
   tempFlow.value = {
     ...tempFlow.value,
+    id: flowId,
     jsonData: flowJson,
   }
   const res = await saveFlow(tempFlow.value)
@@ -223,17 +223,4 @@ const connectionMode = ConnectionMode.Strict
 @import '@vue-flow/minimap/dist/style.css';
 /* import default controls styles */
 @import '@vue-flow/controls/dist/style.css';
-
-/* 添加淡入淡出动画 */
-.slide-fade-enter-active {
-  transition: all 0.3s ease-out;
-}
-.slide-fade-leave-active {
-  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
-}
-.slide-fade-enter-from,
-.slide-fade-leave-to {
-  transform: translateX(-100%);
-  opacity: 0;
-}
 </style>
