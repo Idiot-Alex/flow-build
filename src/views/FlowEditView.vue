@@ -151,6 +151,13 @@ const exportFlow = async () => {
 }
 
 const submitFlow = async () => {
+  if (!flowId) {
+    const flowName = prompt('请输入流程名名称', `flow-${new Date().getTime()}`)
+    if (!flowName) {
+      return
+    }
+    tempFlow.value.name = flowName
+  }
   const nodes = getNodes
   const edges = getEdges
   const sort = await sorting()

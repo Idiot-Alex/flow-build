@@ -37,7 +37,7 @@ const router = createRouter({
               meta: {
                 title: '流程编辑',
               },
-              component: () => import('../views/FlowEdit.vue')
+              component: () => import('../views/FlowEditView.vue')
             }
           ],
         },

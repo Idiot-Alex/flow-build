@@ -34,6 +34,9 @@ const loadFlowList = async () => {
   }
 }
 
+const onCreate = () => {
+  router.push({path: `/flow/edit`})
+}
 const onEditFlow = (flow: any) => {
   router.push({path: `/flow/edit/${flow.idStr}`})
 }
@@ -82,7 +85,7 @@ onMounted(async () => {
     <div class="menu menu-horizontal bg-base-200 rounded-box gap-2">
       <input v-model="tempFlow.name" type="text" placeholder="请输入流程名称" class="input input-bordered" />
       <button class="btn btn-outline" @click="loadFlowList">搜索</button>
-      <button class="btn btn-outline">新建</button>
+      <button class="btn btn-outline" @click="onCreate">新建</button>
     </div>
     <div class="divider m-0 h-auto"></div>
     <table class="table table-zebra">
