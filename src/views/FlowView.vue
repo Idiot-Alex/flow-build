@@ -20,7 +20,9 @@ const pagination = ref({
 })
 const tempFlow: any = ref({})
 const loadFlowList = async () => {
+  const dialogId = dialog.showLoading()
   const res = await listFlow(pagination.value.page, pagination.value.size, tempFlow.value)
+  dialog.closeDialog(dialogId)
   if (res.code === 'ok') {
     flowList.value = res.data
     pagination.value.page = res.page as number
@@ -34,11 +36,19 @@ const loadFlowList = async () => {
   }
 }
 
-const onCreate = () => {
-  router.push({path: `/flow/edit`})
+const onSearch = async () => {
+  await loadFlowList()
 }
-const onEditFlow = (flow: any) => {
-  router.push({path: `/flow/edit/${flow.idStr}`})
+
+const onCreate = async () => {
+  const dialogId = dialog.showLoading()
+  await router.push({path: `/flow/edit`})
+  dialog.closeDialog(dialogId)
+}
+const onEditFlow = async (flow: any) => {
+  const dialogId = dialog.showLoading()
+  await router.push({path: `/flow/edit/${flow.idStr}`})
+  dialog.closeDialog(dialogId)
 }
 
 const onDeleteFlow = async (id: string) => {
@@ -84,7 +94,7 @@ onMounted(async () => {
   <div class="card bg-base-100 shadow-xl overflow-x-auto px-4 py-2">
     <div class="menu menu-horizontal bg-base-200 rounded-box gap-2">
       <input v-model="tempFlow.name" type="text" placeholder="请输入流程名称" class="input input-bordered" />
-      <button class="btn btn-outline" @click="loadFlowList">搜索</button>
+      <button class="btn btn-outline" @click="onSearch">搜索</button>
       <button class="btn btn-outline" @click="onCreate">新建</button>
     </div>
     <div class="divider m-0 h-auto"></div>

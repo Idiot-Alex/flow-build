@@ -9,7 +9,7 @@ export const useDialog = () => {
 
     const dialog = document.createElement('dialog')
     dialog.id = dialogId
-    dialog.className = 'modal modal-bottom sm:modal-middle'
+    dialog.className = 'modal modal-middle'
     dialog.innerHTML = `<div class="modal-box">
       <h3 class="text-lg font-bold">${dl.title}</h3>
       <p class="py-4">${dl.message}</p>
@@ -45,11 +45,33 @@ export const useDialog = () => {
     document.getElementById(dialogId)?.showModal()
   }
 
+  function showLoading(message: string = '正在加载中...'): string {
+    const randomNum = Math.floor(Math.random() * 1000).toString().padStart(3, '0')
+    const dialogId: string = 'dialog-' + new Date().getTime() + randomNum
+
+    const dialog = document.createElement('dialog')
+    dialog.id = dialogId
+    dialog.className = 'modal modal-middle'
+    dialog.innerHTML = `<div class="modal-box w-auto">
+      <div class="flex flex-col gap-2 flex-items-center">
+        <span class="loading loading-infinity loading-lg"></span>
+        <span>${message}</span>
+      </div>
+    </div>`
+    document.body.appendChild(dialog)
+
+    // @ts-ignore
+    document.getElementById(dialogId)?.showModal()
+    return dialogId
+  }
+
   function closeDialog(dialogId: string) {
     document.getElementById(dialogId)?.remove()
   }
 
   return {
     showDialog,
+    showLoading,
+    closeDialog,
   }
 }
