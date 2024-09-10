@@ -45,7 +45,7 @@ export const useDialog = () => {
     document.getElementById(dialogId)?.showModal()
   }
 
-  function showLoading(message: string = '正在加载中...'): string {
+  function showLoading(message: string = '正在加载中...', millseconds: number = 5000): string {
     const randomNum = Math.floor(Math.random() * 1000).toString().padStart(3, '0')
     const dialogId: string = 'dialog-' + new Date().getTime() + randomNum
 
@@ -62,6 +62,12 @@ export const useDialog = () => {
 
     // @ts-ignore
     document.getElementById(dialogId)?.showModal()
+
+    // destory dialog loading
+    setTimeout(() => {
+      closeDialog(dialogId)
+    }, millseconds)
+    
     return dialogId
   }
 
