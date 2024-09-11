@@ -1,19 +1,20 @@
 <script lang="ts" setup>
-import { Panel, VueFlow, type ElementData, ConnectionMode, useVueFlow, type NodeComponent, type EdgeComponent, type GraphNode, type Edge, type Connection, type NodeChange, type EdgeChange, VueFlowError } from '@vue-flow/core'
+import { Panel, VueFlow, type ElementData, ConnectionMode, useVueFlow, type GraphNode, type Edge, type Connection, type NodeChange } from '@vue-flow/core'
 
 import { Background } from '@vue-flow/background'
 import { MiniMap } from '@vue-flow/minimap'
 import { Controls } from '@vue-flow/controls'
-import Animation from '@/components/edges/Animation.vue'
 import { useLayout } from '@/tools/layout'
 import { useNodeProcess } from '@/tools/node-process'
 import { useDialog } from '@/tools/dialog'
-import { nextTick, onMounted, ref, toValue } from 'vue'
+import { defineAsyncComponent, nextTick, onMounted, ref } from 'vue'
 import type { Dialog } from '@/tools/types'
 import { useNodeEdge } from '@/tools/node-edge'
 import { getFlowById, saveFlow } from '@/api/flow'
 import { useToast } from '@/tools/toast'
 import { useRoute } from 'vue-router'
+
+const Animation = defineAsyncComponent(() => import('@/components/edges/Animation.vue'))
 
 const route = useRoute()
 const toast = useToast()
@@ -51,8 +52,6 @@ const loadFlow = async () => {
 
 onMounted(() => {
   loadFlow()
-  // nodes.value = toValue(getNodes)
-  // edges.value = toValue(getEdges)
 })
 
 const layoutGraph = async (direction: string) => {
@@ -193,7 +192,7 @@ const submitFlow = async () => {
         </ul>
       </div>
     </transition>
-    <VueFlow flex-1 :nodes="nodes" :edges="edges" :node-types="nodeTypes" :edge-types="edgeTypes" :connection-mode="connectionMode"  @nodes-initialized="layoutGraph('LR')">
+    <VueFlow class="flex-1" :nodes="nodes" :edges="edges" :node-types="nodeTypes" :edge-types="edgeTypes" :connection-mode="connectionMode"  @nodes-initialized="layoutGraph('LR')">
       <Background />
       <MiniMap />
       <Controls />
