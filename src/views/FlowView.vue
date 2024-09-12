@@ -45,6 +45,9 @@ const onCreate = async () => {
   await router.push({path: `/flow/edit`})
   dialog.closeDialog(dialogId)
 }
+const onRunFlow = async (flow: any) => {
+  console.log(flow)
+}
 const onEditFlow = async (flow: any) => {
   const dialogId = dialog.showLoading()
   await router.push({path: `/flow/edit/${flow.idStr}`})
@@ -116,6 +119,7 @@ onMounted(async () => {
           <td>{{ format(new Date(flow.createdAt), 'yyyy-MM-dd HH:mm:ss') }}</td>
           <td>{{ format(new Date(flow.updatedAt), 'yyyy-MM-dd HH:mm:ss') }}</td>
           <td class="flex gap-2">
+            <button class="btn btn-outline btn-sm" @click="onRunFlow(flow)">执行</button>
             <button class="btn btn-outline btn-sm" @click="onEditFlow(flow)">编辑</button>
             <button class="btn btn-outline btn-sm" @click="onDeleteFlow(flow.idStr)">删除</button>
           </td>
