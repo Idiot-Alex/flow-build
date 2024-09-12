@@ -53,7 +53,7 @@ export const useDialog = () => {
     dialog.id = dialogId
     dialog.className = 'modal modal-middle'
     dialog.innerHTML = `<div class="modal-box w-auto">
-      <div class="flex flex-col gap-2 flex-items-center">
+      <div class="flex flex-col gap-2 items-center">
         <span class="loading loading-infinity loading-lg"></span>
         <span>${message}</span>
       </div>
