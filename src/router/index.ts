@@ -38,6 +38,14 @@ const router = createRouter({
                 title: '流程编辑',
               },
               component: () => import('../views/FlowEditView.vue')
+            },
+            {
+              path: '/flow/his/list',
+              name: 'flow-his-list',
+              meta: {
+                title: '历史记录',
+              },
+              component: () => import('../views/FlowHisView.vue')
             }
           ],
         },

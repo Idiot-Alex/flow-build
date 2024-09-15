@@ -122,6 +122,7 @@ onMounted(async () => {
         <tr>
           <th>ID</th>
           <th>名称</th>
+          <th>构建序号</th>
           <th>创建时间</th>
           <th>修改时间</th>
           <th>操作</th>
@@ -131,6 +132,7 @@ onMounted(async () => {
         <tr v-for="flow in flowList" :key="flow.id">
           <th>{{ flow.idStr }}</th>
           <td>{{ flow.name }}</td>
+          <td>#{{ flow.maxSeqNo }}</td>
           <td>{{ format(new Date(flow.createdAt), 'yyyy-MM-dd HH:mm:ss') }}</td>
           <td>{{ format(new Date(flow.updatedAt), 'yyyy-MM-dd HH:mm:ss') }}</td>
           <td class="flex gap-2">
