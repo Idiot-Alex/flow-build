@@ -42,3 +42,13 @@ export const getFlowById = async (id: string): Promise<Res> => {
   })
   return response.json()
 }
+
+// build flow
+export const flowBuild = async (id: string): Promise<Res> => {
+  const response = await fetchWithTimeout(`/api/flow/build/${id}`, {
+    method: 'GET',
+    headers: {
+    },
+  })
+  return response.json()
+}

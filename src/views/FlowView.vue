@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { listFlow, deleteFlow } from '../api/flow'
+import { listFlow, deleteFlow, flowBuild } from '../api/flow'
 import { onMounted, ref } from 'vue'
 import type { Dialog, Res } from '@/tools/types'
 import { useToast } from '@/tools/toast'
@@ -45,8 +45,23 @@ const onCreate = async () => {
   await router.push({path: `/flow/edit`})
   dialog.closeDialog(dialogId)
 }
-const onRunFlow = async (flow: any) => {
-  console.log(flow)
+const onRunFlow = async (id: string) => {
+  const dl: Dialog = {
+    title: '提示',
+    message: '是否继续操作...',
+    closeBtn: '取消',
+    confirmBtn: '确认',
+    confirmFunc: async () => {
+      const res: any = await flowBuild(id)
+      if (res.code === 'ok') {
+        toast.showSuccess(res.msg)
+        loadFlowList()
+      } else {
+        toast.showError(res.msg)
+      }
+    }
+  }
+  dialog.showDialog(dl)
 }
 const onEditFlow = async (flow: any) => {
   const dialogId = dialog.showLoading()
@@ -119,7 +134,7 @@ onMounted(async () => {
           <td>{{ format(new Date(flow.createdAt), 'yyyy-MM-dd HH:mm:ss') }}</td>
           <td>{{ format(new Date(flow.updatedAt), 'yyyy-MM-dd HH:mm:ss') }}</td>
           <td class="flex gap-2">
-            <button class="btn btn-outline btn-sm" @click="onRunFlow(flow)">执行</button>
+            <button class="btn btn-outline btn-sm" @click="onRunFlow(flow.idStr)">执行</button>
             <button class="btn btn-outline btn-sm" @click="onEditFlow(flow)">编辑</button>
             <button class="btn btn-outline btn-sm" @click="onDeleteFlow(flow.idStr)">删除</button>
           </td>
