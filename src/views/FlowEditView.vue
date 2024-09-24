@@ -38,11 +38,8 @@ const loadFlow = async () => {
     const res = await getFlowById(flowId)
     if (res.code === 'ok') {
       tempFlow.value = res.data
-      const jsonData = JSON.parse(res.data.jsonData)
-      if (jsonData) {
-        nodes.value = jsonData.nodes || []
-        edges.value = jsonData.edges || []
-      }
+      nodes.value = res.data.jsonData.nodes || []
+      edges.value = res.data.jsonData.edges || []
     } else {
       toast.showError(res.msg)
     }
@@ -164,11 +161,10 @@ const submitFlow = async () => {
     edges: edges.value,
     sort: sort,
   }
-  const flowJson = JSON.stringify(flow, null, 2)
   tempFlow.value = {
     ...tempFlow.value,
     id: flowId,
-    jsonData: flowJson,
+    jsonData: flow,
   }
   const res = await saveFlow(tempFlow.value)
   if (res.code === 'ok') {
