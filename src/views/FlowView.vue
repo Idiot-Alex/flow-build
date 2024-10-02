@@ -132,7 +132,7 @@ onMounted(async () => {
         <tr v-for="flow in flowList" :key="flow.id">
           <th>{{ flow.idStr }}</th>
           <td>{{ flow.name }}</td>
-          <td>#{{ flow.maxSeqNo ?? '无' }}</td>
+          <td>#<a class="link link-info link-hover">{{ flow.maxSeqNo ?? '无' }}</a></td>
           <td>{{ format(new Date(flow.createdAt), 'yyyy-MM-dd HH:mm:ss') }}</td>
           <td>{{ format(new Date(flow.updatedAt), 'yyyy-MM-dd HH:mm:ss') }}</td>
           <td class="flex gap-2">
