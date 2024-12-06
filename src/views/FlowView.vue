@@ -46,6 +46,7 @@ const onCreate = async () => {
   dialog.closeDialog(dialogId)
 }
 const onRunFlow = async (id: string) => {
+  console.log(id)
   const dl: Dialog = {
     title: '提示',
     message: '是否继续操作...',
